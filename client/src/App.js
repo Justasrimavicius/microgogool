@@ -1,7 +1,7 @@
 import Header from "./Components/MainSections/Header";
 import Footer from "./Components/MainSections/Footer";
 import Content from "./Components/MainSections/Content";
-import Authentication from "./Components/Authentication";
+import Authentication from "./Components/Authentication/Authentication";
 
 // CSS imports
 import './Styles/FooterStyles.css';
@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       {
-      !authenticated ? <Authentication />
+      !authenticated ? <Authentication setAuthenticated={setAuthenticated}/>
       :<>
       <Header />
 
