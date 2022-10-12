@@ -2,98 +2,158 @@ import App from '../../App';
 
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
 import app from '../../firebase';
+import { act } from 'react-dom/test-utils';
 
 
-describe('signup functionality works properly',function(){
+describe.skip('signup functionality works properly',function(){
 
     beforeEach(()=>{
         render(<App />);
-        userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     })
-
     it('loads signup tab from the starting view',async function(){
-        await waitFor(()=>{
+        await waitFor(async ()=>{
+            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
+
             expect(screen.getByText(/repeat email:/i)).toBeTruthy();
         })
     })
     it('signup flow with matching email/repeat email and password/repeat password values',async function(){
         await waitFor(async ()=>{
-            await userEvent.type(screen.getByLabelText('Email:'),'tuomis@gmail.com');
-            await userEvent.type(screen.getByLabelText('Repeat email:'),'tuomis@gmail.com');
+            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
+            
+            const email = 'tuomis@gmail.com';
+            const password = 'Tuomis123';
 
-            await userEvent.type(screen.getByLabelText('Password:'),'Tuomis123');
-            await userEvent.type(screen.getByLabelText('Repeat password:'),'Tuomis123');
-            await fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+            await userEvent.type(screen.getByLabelText('Email:'),email);
+            await userEvent.type(screen.getByLabelText('Repeat email:'),email);
+
+            await userEvent.type(screen.getByLabelText('Password:'),password);
+            await userEvent.type(screen.getByLabelText('Repeat password:'),password);
+            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
 
             const auth = getAuth(app);
-
-            await createUserWithEmailAndPassword(auth,'tuomis@gmail.com','whatever')
+            let isErrThrown = false;
+            act(()=>{createUserWithEmailAndPassword(auth,email,password)
               .then(res=>{
-                console.log(res);
-                // good case - that means the email was changed in the test and it reated a new user in database.
+                // in this scneario, this .then is an error - it shouldnt reach this part of the code(unless the email changes in this test)
+                isErrThrown = true;
               })
               .catch(err=>{
-                console.log(err)
-                if(err.code=="auth/email-already-in-use")
-                {
-                    // good case - that means that input was valid, just that it already exists.
-                }
+                // should catch an error for this scenario - testing email is the same, so it already exists in the database, therefore it should throw an error
+                // saying that it already exists
+                expect(err.code).toEqual('auth/email-already-in-use');
               })
+            })
+            if(isErrThrown)expect(2).toEqual(1);
         })
     })
     it('signup with different email/repeat email', async function(){
+
         await waitFor(async ()=>{
-            await userEvent.type(screen.getByLabelText('Email:'),'tuomisis@gmail.com');
-            await userEvent.type(screen.getByLabelText('Repeat email:'),'tuomis@gmail.com');
+            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
-            await userEvent.type(screen.getByLabelText('Password:'),'Tuomis123');
-            await userEvent.type(screen.getByLabelText('Repeat password:'),'Tuomis123');
-            await fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+            const email = 'tuomisis@gmail.com';
+            const password = 'Tuomis123';
 
-            const auth = getAuth(app);
+            await userEvent.type(screen.getByLabelText('Email:'),email);
+            await userEvent.type(screen.getByLabelText('Repeat email:'),email+'x');
 
-            await createUserWithEmailAndPassword(auth,'tuomis@gmail.com','whatever')
-                .then(res=>{
-                console.log(res);
-                // good case - that means the email was changed in the test and it reated a new user in database.
-                })
-                .catch(err=>{
-                expect(screen.getByText(`emails don't match`)).toBeTruthy();
-                console.log(err)
-                if(err.code=="auth/email-already-in-use")
-                    {
-                        // good case - that means that input was valid, just that it already exists.
-                    }
-                })
+            await userEvent.type(screen.getByLabelText('Password:'),password);
+            await userEvent.type(screen.getByLabelText('Repeat password:'),password);
+
+            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
+            expect(screen.getByText(`emails don't match`)).toBeTruthy();
         })
     })
     it('signup with different password/repeat password', async function(){
         await waitFor(async ()=>{
-            await userEvent.type(screen.getByLabelText('Email:'),'tuomis@gmail.com');
-            await userEvent.type(screen.getByLabelText('Repeat email:'),'tuomis@gmail.com');
+            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
-            await userEvent.type(screen.getByLabelText('Password:'),'Tuomisis123');
-            await userEvent.type(screen.getByLabelText('Repeat password:'),'Tuomis123');
-            await fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+            const email = 'tuomis@gmail.com';
+            const password = 'Tuomis123';
+
+            await userEvent.type(screen.getByLabelText('Email:'),email);
+            await userEvent.type(screen.getByLabelText('Repeat email:'),email);
+
+            await userEvent.type(screen.getByLabelText('Password:'),password);
+            await userEvent.type(screen.getByLabelText('Repeat password:'),password+'x');
+            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
+            expect(screen.getByText(`passwords don't match`)).toBeTruthy();
+
+
+        })
+    })
+})
+
+describe('login functionality works properly',function(){
+    beforeEach(()=>{
+        render(<App />);
+    })
+    it('loads login tab from the starting view',async function(){
+        await waitFor(()=>{
+            userEvent.click(screen.getByRole('button', { name: /log in/i }));
+
+            expect(screen.getByText(/log in with your credentials/i)).toBeTruthy();
+        })
+    })
+    it('login flow with correct(existing) email and password',async function(){
+        await waitFor(async ()=>{
+            userEvent.click(screen.getByRole('button', { name: /log in/i }));
+
+            const email = 'tuomis@gmail.com';
+            const password = 'Tuomis123';
+
+            await userEvent.type(screen.getByLabelText('Email:'),email);
+            await userEvent.type(screen.getByLabelText('Password:'),password);
+
+            act(()=>{fireEvent.click(screen.getByRole('button', { name: /log in/i }))});
 
             const auth = getAuth(app);
+            let isErrThrown = false;
 
-            await createUserWithEmailAndPassword(auth,'tuomis@gmail.com','whatever')
-                .then(res=>{
-                console.log(res);
-                // good case - that means the email was changed in the test and it reated a new user in database.
-                })
-                .catch(err=>{
-                expect(screen.getByText(`passwords don't match`)).toBeTruthy();
-                console.log(err)
-                if(err.code=="auth/email-already-in-use")
-                    {
-                        // good case - that means that input was valid, just that it already exists.
-                    }
-                })
+            act(()=>{signInWithEmailAndPassword(auth, email, password)
+              .then((res) => {
+                // should be able to 
+                expect(res.user).toBeTruthy();
+              })
+              .catch((error) => {
+                isErrThrown = true;
+              });
+            })
+        if(isErrThrown)expect(2).toEqual(1);
+    })
+
+    })
+    it('login flow with incorrect(not existing) email',async function(){
+        await waitFor(async ()=>{
+            userEvent.click(screen.getByRole('button', { name: /log in/i }));
+
+            const email = 'taratara@gmail.com';
+            const password = 'taratara123';
+
+            await userEvent.type(screen.getByLabelText('Email:'),email);
+
+            await userEvent.type(screen.getByLabelText('Password:'),password);
+            act(()=>{fireEvent.click(screen.getByRole('button', { name: /log in/i }))});
+
+
+            const auth = getAuth(app);
+            let isErrThrown = false;
+
+            act(()=>{signInWithEmailAndPassword(auth, email, password)
+              .then((res) => {
+                // as in previous tests, this .then is considered an error - incorrect login email shouldnt give a valid login
+                isErrThrown = true;
+              })
+              .catch((err) => {
+                expect(err).toBeTruthy();
+              });
+            })
+            if(isErrThrown)expect(2).toBe(1);
+
         })
     })
 })

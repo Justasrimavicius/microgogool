@@ -8,7 +8,6 @@ function Signup(props) {
 
     async function checkSubmit(e){
         e.preventDefault();
-
         const errorMsg = document.querySelector('.signup-component-errorMsg');
         setAuthErrorMsg('');
 
@@ -44,12 +43,11 @@ function Signup(props) {
 
         // firebase authentication
         const auth = getAuth(app);
-        await function createUser(){
+        (await function createUser(){
          createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            console.log(userCredential);
             if(userCredential.user){
+
                 setAuthErrorMsg('User succesfully registered!');
                 document.querySelector('.signup-component-errorMsg').style.color='green';
                 document.querySelector('.signup-component-errorMsg').style.fontWeight='bold';
@@ -57,10 +55,8 @@ function Signup(props) {
                     setAuthErrorMsg('');
                     document.querySelector('.signup-component-errorMsg').style.color='red';
                     document.querySelector('.signup-component-errorMsg').style.fontWeight='normal';
-                    
                 }, 3000);
             }
-            const user = userCredential.user;
         })
         .catch((error) => {
             console.log(error.code)
@@ -72,7 +68,7 @@ function Signup(props) {
             }
         });
            
-    } 
+    })()
     }
 
     return (
@@ -87,9 +83,9 @@ function Signup(props) {
                 </div>
 
                 <div className='signup-component-passwordDiv'>
-                    <label htmlFor='password'>Password:</label>
-                    <input id='password' name='password'></input>
-                    <label htmlFor='passwordR'>Repeat password:</label>
+                    <label htmlFor='password' type='password'>Password:</label>
+                    <input id='password' name='password' type='password'></input>
+                    <label htmlFor='passwordR' type='password'>Repeat password:</label>
                     <input id='passwordR' name='passwordR'></input>
                 </div>
                 <p className='signup-component-errorMsg'>{authErrorMsg}</p>
