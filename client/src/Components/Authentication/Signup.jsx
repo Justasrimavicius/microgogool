@@ -6,11 +6,12 @@ function Signup(props) {
 
     const [authErrorMsg, setAuthErrorMsg] = useState('');
 
-    function checkSubmit(e){
+    async function checkSubmit(e){
         e.preventDefault();
 
         const errorMsg = document.querySelector('.signup-component-errorMsg');
         setAuthErrorMsg('');
+
 
         const email = document.querySelector('#email').value;
         const emailR = document.querySelector('#emailR').value;
@@ -33,7 +34,7 @@ function Signup(props) {
 
         // password checking
         if(password!=passwordR){
-            setAuthErrorMsg(`Passwords don't match`);
+            setAuthErrorMsg(`passwords don't match`);
             return;
         }
         if(password.length<8){
@@ -43,12 +44,23 @@ function Signup(props) {
 
         // firebase authentication
         const auth = getAuth(app);
-        createUserWithEmailAndPassword(auth, email, password)
+        await function createUser(){
+         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
-            console.log(userCredential)
+            console.log(userCredential);
+            if(userCredential.user){
+                setAuthErrorMsg('User succesfully registered!');
+                document.querySelector('.signup-component-errorMsg').style.color='green';
+                document.querySelector('.signup-component-errorMsg').style.fontWeight='bold';
+                setTimeout(() => {
+                    setAuthErrorMsg('');
+                    document.querySelector('.signup-component-errorMsg').style.color='red';
+                    document.querySelector('.signup-component-errorMsg').style.fontWeight='normal';
+                    
+                }, 3000);
+            }
             const user = userCredential.user;
-            // ...
         })
         .catch((error) => {
             console.log(error.code)
@@ -59,6 +71,8 @@ function Signup(props) {
                 setAuthErrorMsg('Email is already in use');
             }
         });
+           
+    } 
     }
 
     return (
@@ -79,7 +93,7 @@ function Signup(props) {
                     <input id='passwordR' name='passwordR'></input>
                 </div>
                 <p className='signup-component-errorMsg'>{authErrorMsg}</p>
-                <button>Sign up</button>
+                <button className='button'>Sign up</button>
                 <button className='auth-goBack-btn' type='button' onClick={()=>{props.authState.setAuthButton('default')}}>Go back</button>
             </form>
         </div>
