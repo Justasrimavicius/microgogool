@@ -11,8 +11,8 @@ function Login(props){
     async function checkSubmit(e){
         e.preventDefault();
 
-        const email = document.querySelector('#email');
-        const password = document.querySelector('#password');
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
 
         if(email==''){
             setAuthErrorMsg(`Email can't be empty`);
@@ -24,17 +24,21 @@ function Login(props){
         }
 
         const auth = getAuth(app);
-        (await function loginUser(){
+        (function loginUser(){
             signInWithEmailAndPassword(auth, email, password)
            .then((userCredential) => {
+            console.log(userCredential)
            })
            .catch((error) => {
+            console.log(error.code)
             if(error.code=='auth/user-not-found'){
                 setAuthErrorMsg('User not found');
                 return;
             } else if(error.code=='auth/wrong-password'){
                 setAuthErrorMsg('Wrong password');
                 return;
+            } else if(error.code=='auth/network-request-failed'){
+                setAuthErrorMsg('Network request failed. Please try again later.')
             } else{
                 setAuthErrorMsg('Unrecognized error message. Check the email format');
                 return;

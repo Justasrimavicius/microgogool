@@ -47,7 +47,7 @@ function Signup(props) {
          createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             if(userCredential.user){
-
+                console.log(userCredential)
                 setAuthErrorMsg('User succesfully registered!');
                 document.querySelector('.signup-component-errorMsg').style.color='green';
                 document.querySelector('.signup-component-errorMsg').style.fontWeight='bold';
@@ -86,7 +86,7 @@ function Signup(props) {
                     <label htmlFor='password' type='password'>Password:</label>
                     <input id='password' name='password' type='password'></input>
                     <label htmlFor='passwordR' type='password'>Repeat password:</label>
-                    <input id='passwordR' name='passwordR'></input>
+                    <input id='passwordR' name='passwordR' type='password'></input>
                 </div>
                 <p className='signup-component-errorMsg'>{authErrorMsg}</p>
                 <button className='button'>Sign up</button>

@@ -103,18 +103,18 @@ describe('login functionality works properly',function(){
         await waitFor(async ()=>{
             userEvent.click(screen.getByRole('button', { name: /log in/i }));
 
-            const email = 'tuomis@gmail.com';
-            const password = 'Tuomis123';
+            const email = 'testing@gmail.com';
+            const password = 'testing123';
 
             await userEvent.type(screen.getByLabelText('Email:'),email);
             await userEvent.type(screen.getByLabelText('Password:'),password);
 
-            act(()=>{fireEvent.click(screen.getByRole('button', { name: /log in/i }))});
+            fireEvent.click(screen.getByRole('button', { name: /log in/i }));
 
             const auth = getAuth(app);
             let isErrThrown = false;
 
-            act(()=>{signInWithEmailAndPassword(auth, email, password)
+            await act(async ()=>{await signInWithEmailAndPassword(auth, email, password)
               .then((res) => {
                 // should be able to 
                 expect(res.user).toBeTruthy();
@@ -124,8 +124,7 @@ describe('login functionality works properly',function(){
               });
             })
         if(isErrThrown)expect(2).toEqual(1);
-    })
-
+    }, { timeout: '3000' })
     })
     it('login flow with incorrect(not existing) email',async function(){
         await waitFor(async ()=>{
@@ -137,13 +136,13 @@ describe('login functionality works properly',function(){
             await userEvent.type(screen.getByLabelText('Email:'),email);
 
             await userEvent.type(screen.getByLabelText('Password:'),password);
-            act(()=>{fireEvent.click(screen.getByRole('button', { name: /log in/i }))});
+            fireEvent.click(screen.getByRole('button', { name: /log in/i }));
 
 
             const auth = getAuth(app);
             let isErrThrown = false;
 
-            act(()=>{signInWithEmailAndPassword(auth, email, password)
+            await act(async ()=>{await signInWithEmailAndPassword(auth, email, password)
               .then((res) => {
                 // as in previous tests, this .then is considered an error - incorrect login email shouldnt give a valid login
                 isErrThrown = true;
@@ -154,6 +153,10 @@ describe('login functionality works properly',function(){
             })
             if(isErrThrown)expect(2).toBe(1);
 
-        })
+        }, { timeout:'3000' })
     })
 })
+
+
+// IMPORTANT -------------- tests are passing, truthy values replaced with falsy make the tests fail, therefore the tests are working properly,
+// even though it shows weird warning errors about act() in the console.
