@@ -8,7 +8,7 @@ function Signup(props) {
 
     async function checkSubmit(e){
         e.preventDefault();
-        const errorMsg = document.querySelector('.signup-component-errorMsg');
+        const errorMsg = document.querySelector('.auth-component-errorMsg');
         setAuthErrorMsg('');
 
 
@@ -49,12 +49,12 @@ function Signup(props) {
             if(userCredential.user){
                 console.log(userCredential)
                 setAuthErrorMsg('User succesfully registered!');
-                document.querySelector('.signup-component-errorMsg').style.color='green';
-                document.querySelector('.signup-component-errorMsg').style.fontWeight='bold';
+                document.querySelector('.auth-component-errorMsg').style.color='green';
+                document.querySelector('.auth-component-errorMsg').style.fontWeight='bold';
                 setTimeout(() => {
                     setAuthErrorMsg('');
-                    document.querySelector('.signup-component-errorMsg').style.color='red';
-                    document.querySelector('.signup-component-errorMsg').style.fontWeight='normal';
+                    document.querySelector('.auth-component-errorMsg').style.color='red';
+                    document.querySelector('.auth-component-errorMsg').style.fontWeight='normal';
                 }, 3000);
             }
         })
@@ -88,7 +88,7 @@ function Signup(props) {
                     <label htmlFor='passwordR' type='password'>Repeat password:</label>
                     <input id='passwordR' name='passwordR' type='password'></input>
                 </div>
-                <p className='signup-component-errorMsg'>{authErrorMsg}</p>
+                <p className='auth-component-errorMsg'>{authErrorMsg}</p>
                 <button className='button'>Sign up</button>
                 <button className='auth-goBack-btn' type='button' onClick={()=>{props.authState.setAuthButton('default')}}>Go back</button>
             </form>

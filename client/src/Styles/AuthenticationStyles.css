@@ -18,16 +18,23 @@
     font-size: 2rem;
     width: 30vw;
     font-weight: bold;
+    text-align: center;
+
 }
 .auth-inputs-holder{
-    background-color: rgba(0, 0, 0, 0.1);
-    width: 30vw;
+    background-color:rgba(95, 158, 160, 0.5);
+    max-width: 30vw;
+    min-width: 400px;
     height: 300px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px 3px rgba(102, 102, 102, 0.736);
+
+    transition: 0.5s all;
 }
 .auth-inputs-holder button{
     outline: none;
@@ -39,6 +46,8 @@
     font-weight: bold;
     border: 2px solid black;
     border-bottom: 5px solid black;
+    width: 80%;
+    margin: 0 30px;
 
     transition: 0.1s all;
 }
@@ -50,7 +59,7 @@
     border: none !important;
     background-color: transparent !important;
     font-size: 1rem !important;
-    color: rgb(221, 172, 81);
+    color: rgb(0, 0, 0);
 }
 
 
@@ -73,25 +82,28 @@
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1.5fr 0.5fr 1fr 1fr;
+    grid-template-rows: 1fr 1.5fr 0.5fr 1fr;
 }
+
 .signup-component form > p:nth-child(1),
 .login-component form > p:nth-child(1){
     grid-column: 1/3;
     text-align: center;
     font-size: 1.4rem;
     margin-bottom: 0;
-    margin-top: 10px;
 }
 .login-comoponent-inputHolder{
     grid-column: 1/3;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 .signup-component form button,
 .login-component form button{
     grid-column: 1/3;
     margin: 0 30%;
+    width: 40%;
 }
 .signup-component-emailDiv,
 .signup-component-passwordDiv,
@@ -127,8 +139,7 @@
 .login-comoponent-inputHolder label{
     margin: 20px 10px 0 10px;
 }
-.signup-component-errorMsg,
-.login-component-errorMsg{
+.auth-component-errorMsg{
     grid-column: 1/3;
     text-align: center;
     color: red;
@@ -136,3 +147,51 @@
     margin: 10px;
 }
 
+
+@media (max-width: 1125px){
+    .auth-inputs-holder{
+        height: auto;
+        min-height: 300px;
+    }
+    .signup-component form{
+        width: 100%;
+        height: 400px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.2fr 2fr 0.5fr 0.5fr 0.1fr;
+    }
+    .auth-component-errorMsg{
+        grid-column: 1/2;
+        }
+        .signup-component form button,
+        .login-component form button{
+        grid-column: 1/2;
+        }
+        .auth-inputs-holder form > p:nth-child(1){
+            grid-column: 1/2;
+        }
+
+
+    .login-component form{
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.3fr 1.5fr 0.5fr 0.5fr;
+    }
+}
+@media (max-width: 685px){
+    .authentication > div{
+        flex-direction: column;
+    }
+    .authentication > div > p{
+        max-width: 400px;
+        min-width: 300px;
+    }
+}
+@media (max-width: 390px){
+    .auth-inputs-holder{
+        width: 100%;
+        min-width: 100%;
+    }
+}
