@@ -7,10 +7,6 @@ function Authentication(props) {
 
     const [authButton, setAuthButton] = useState('default');
 
-    useEffect(()=>{
-        
-    },[authButton])
-
     return (
         <div className='authentication'>
             <div>

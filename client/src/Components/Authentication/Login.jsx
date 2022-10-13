@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+
 import { app } from '../../firebase';
+
+import MyContext from '../../context';
+
 
 function Login(props){
     
+    const [userCredentials, setUserCredentials] = useState(null);
     const [authErrorMsg, setAuthErrorMsg] = useState('');
+
+    const { UID, setUID } = useContext(MyContext);
+
+    useEffect(()=>{
+    },[UID])
 
     async function checkSubmit(e){
         e.preventDefault();
-
+        
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
 
@@ -22,11 +32,11 @@ function Login(props){
             setAuthErrorMsg(`Password can't be empty`);
             return;
         }
-
-        const auth = getAuth(app);
+        const localAuth = getAuth(app);
         (function loginUser(){
-            signInWithEmailAndPassword(auth, email, password)
+            signInWithEmailAndPassword(localAuth, email, password)
            .then((userCredential) => {
+            setUserCredentials(userCredential);
             console.log(userCredential)
            })
            .catch((error) => {
@@ -44,9 +54,15 @@ function Login(props){
                 return;
             }
            });
-              
        })()
     }
+
+    useEffect(()=>{
+        if(userCredentials!=null){
+            setUID(userCredentials.user.uid);
+        }
+    },[userCredentials])
+
 
     return (
         <div className='login-component'>

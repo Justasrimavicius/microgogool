@@ -1,8 +1,15 @@
 body{
     margin: 0;
+    background-color: rgb(177, 235, 177);
 }
 main{
-    width: 100vw;
+    width: 80vw;
     height: 180vh;
-    background-color: pink;
+    margin: 0 10vw;
+    background-color: rgb(177, 235, 177);
+
+    padding-top: 10vh;
+    display: grid;
+    grid-template-columns: 1.5fr 4fr 2fr;
+    grid-template-rows: 1fr;
 }

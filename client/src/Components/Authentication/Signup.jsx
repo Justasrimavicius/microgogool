@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from '../../firebase';
 
+import MyContext from '../../context';
+
 function Signup(props) {
 
+    const [userCredentials, setUserCredentials] = useState(null);
     const [authErrorMsg, setAuthErrorMsg] = useState('');
+
+    const { UID, setUID } = useContext(MyContext);
 
     async function checkSubmit(e){
         e.preventDefault();
         const errorMsg = document.querySelector('.auth-component-errorMsg');
         setAuthErrorMsg('');
+
+        
 
 
         const email = document.querySelector('#email').value;
@@ -47,7 +54,9 @@ function Signup(props) {
          createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             if(userCredential.user){
-                console.log(userCredential)
+                setUserCredentials(userCredential);
+                setUID(userCredential.user.uid);
+                // console.log(userCredential)
                 setAuthErrorMsg('User succesfully registered!');
                 document.querySelector('.auth-component-errorMsg').style.color='green';
                 document.querySelector('.auth-component-errorMsg').style.fontWeight='bold';
@@ -70,6 +79,13 @@ function Signup(props) {
            
     })()
     }
+
+
+    useEffect(()=>{
+        if(userCredentials!=null){
+        }
+    },[userCredentials])
+
 
     return (
         <div className='signup-component'>
