@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 
-import MyContext from '../../context';
+import MyContext from 'src/context';
 
-function Login(props){
+function Login(props: any){
     
     const [userCredentials, setUserCredentials] = useState<any>(null);
     const [authErrorMsg, setAuthErrorMsg] = useState('');
@@ -16,8 +16,8 @@ function Login(props){
         xhr.open("POST", 'http://localhost:8080/login', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            email: e.target[0].value,
-            password: e.target[1].value
+            // email: e.target[0].value,
+            // password: e.target[1].value
         }));
 
         xhr.onload = ()=>{
