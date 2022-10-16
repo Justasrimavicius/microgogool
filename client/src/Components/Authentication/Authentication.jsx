@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Login from './Login';
+import Login from './Login.tsx';
 import Signup from './Signup';
 
 function Authentication(props) {

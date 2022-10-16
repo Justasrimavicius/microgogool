@@ -14,7 +14,7 @@ import './Styles/MainStyles.css';
 
 import { useEffect, useState } from "react";
 import React from "react";
-import MyContext from './context';
+import MyContext from './context.ts';
 function App() {
   
   const [UID, setUID] = useState('');

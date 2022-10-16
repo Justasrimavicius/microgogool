@@ -4,7 +4,7 @@ import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
-import app from '../../firebase';
+import app from '../../../../server/firebase';
 import { act } from 'react-dom/test-utils';
 
 
