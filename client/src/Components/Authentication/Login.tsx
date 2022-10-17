@@ -5,7 +5,6 @@ import MyContext from 'src/context';
 
 function Login(props: any){
     
-    const [userCredentials, setUserCredentials] = useState<any>(null);
     const [authErrorMsg, setAuthErrorMsg] = useState('');
 
     const { UID, setUID } = useContext(MyContext);
@@ -16,22 +15,21 @@ function Login(props: any){
         xhr.open("POST", 'http://localhost:8080/login', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            // email: e.target[0].value,
-            // password: e.target[1].value
+            email: e.currentTarget.email.value,
+            password: e.currentTarget.password.value
         }));
 
         xhr.onload = ()=>{
-            console.log(xhr.responseText);
+            const parsedResponse = JSON.parse(xhr.responseText);
+            if(parsedResponse.UID){
+                setUID(parsedResponse.UID);
+                console.log(parsedResponse.UID)
+            } else {
+                setAuthErrorMsg(xhr.responseText);
+                console.log(xhr.responseText);
+            }
         }
     }
-
-
-    useEffect(()=>{
-        if(userCredentials!=null){
-            setUID(userCredentials.user.uid);
-        }
-    },[userCredentials])
-
 
     return (
         <div className='login-component'>
@@ -43,6 +41,7 @@ function Login(props: any){
                 <label htmlFor='password'>Password:</label>
                 <input id='password' name='password' type='password'></input>
             </div>
+            <p className='auth-component-errorMsg'>{authErrorMsg}</p>
             <button className='button'>Log in</button>
             <button className='auth-goBack-btn' type='button' onClick={()=>{props.authState.setAuthButton('default')}}>Go back</button>
         </form>

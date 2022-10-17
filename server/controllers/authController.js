@@ -1,16 +1,28 @@
-const app = require('../firebase');
-const firebaseAuth = require('firebase/auth');
-// import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+const { getAuth, signInWithEmailAndPassword } = require('firebase/auth');
+const firebase = require("firebase/app");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAXhsqjmEbJ4GGDFMjrnyhcPTEAD5WCSIo",
+  authDomain: "microgoogol-c289a.firebaseapp.com",
+  projectId: "microgoogol-c289a",
+  storageBucket: "microgoogol-c289a.appspot.com",
+  messagingSenderId: "329114844875",
+  appId: "1:329114844875:web:21c29b604b3c54fa2fa54e"
+};
+
+app = firebase.initializeApp(firebaseConfig)
+
 
 exports.signup = (req,res,next)=>{
 
 }
 
 exports.login = (req,res,next)=>{
-
         console.log(req.body)
         const email = req.body.email;
         const password = req.body.password;
+        console.log(email);
+        console.log(password);
 
         if(email==''){
             res.json(`Email can't be empty`);
@@ -20,11 +32,15 @@ exports.login = (req,res,next)=>{
             res.json(`Password can't be empty`);
             return;
         }
-        const localAuth = firebaseAuth.getAuth(app);
+        if(password.length<6){
+            res.json(`Password is too short. Minimum 6 characters`);
+            return;
+        }
+        const localAuth = getAuth(app);
         (function loginUser(){
-            firebaseAuth.signInWithEmailAndPassword(localAuth, email, password)
+            signInWithEmailAndPassword(localAuth, email, password)
            .then((userCredential) => {
-            res.json(userCredential);
+            res.json({UID: userCredential.user.uid});
            })
            .catch((error) => {
             console.log(error.code)
