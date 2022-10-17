@@ -1,4 +1,4 @@
-const { getAuth, signInWithEmailAndPassword } = require('firebase/auth');
+const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
 const firebase = require("firebase/app");
 
 const firebaseConfig = {
@@ -14,15 +14,59 @@ app = firebase.initializeApp(firebaseConfig)
 
 
 exports.signup = (req,res,next)=>{
+    
+    const email = req.body.email;
+    const emailR = req.body.emailR;
+    const password = req.body.password;
+    const passwordR = req.body.passwordR;
 
+    // email checking
+    if(email!=emailR){
+        res.json(`Emails don't match`)
+        return;
+    }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        res.json(`Not a valid email address`);
+        return;
+    }
+
+    // password checking
+    if(password!=passwordR){
+        res.json(`Passwords don't match`);
+        return;
+    }
+    if(password.length<8){
+        res.json(`Password length must be greater than 7`);
+        return;
+    }
+
+    // firebase authentication
+    const localAuth = getAuth(app);
+    (function createUser(){
+        createUserWithEmailAndPassword(localAuth, email, password)
+    .then((userCredential) => {
+        if(userCredential.user){
+            res.json({UID: userCredential.user.uid});
+        }
+    })
+    .catch((error) => {
+        console.log(error.code)
+        if(error.code=='auth/invalid-email'){
+            res.json(`Not a valid email address`)
+            return;
+        }
+        if(error.code=='auth/email-already-in-use'){
+            res.json(`Email is already in use`);
+            return;
+        }
+    });
+        
+})()
 }
 
 exports.login = (req,res,next)=>{
-        console.log(req.body)
         const email = req.body.email;
         const password = req.body.password;
-        console.log(email);
-        console.log(password);
 
         if(email==''){
             res.json(`Email can't be empty`);

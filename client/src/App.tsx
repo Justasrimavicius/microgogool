@@ -1,6 +1,6 @@
 import Header from "./Components/MainSections/Header";
 import Footer from "./Components/MainSections/Footer";
-import Content from "./Components/MainSections/Content";
+import Content from "src/Components/MainSections/Content";
 import Authentication from "./Components/Authentication/Authentication";
 import LoadingScreen from "./Components/LoadingScreen";
 
@@ -14,15 +14,17 @@ import './Styles/MainStyles.css';
 
 import { useEffect, useState } from "react";
 import React from "react";
-import MyContext from './context.ts';
+import MyContext from 'src/context';
+
 function App() {
   
   const [UID, setUID] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [loadingScreen, triggerLoadingScreen] = useState(null);
+  const [loadingScreen, triggerLoadingScreen] = useState(false);
 
   useEffect(()=>{
     if(UID!=''){
+      console.log(UID);
       triggerLoadingScreen(true);
       setTimeout(() => {
         setAuthenticated(true);
@@ -36,7 +38,7 @@ function App() {
         <div className="App">
             {loadingScreen ? <LoadingScreen /> : null}
             {
-            !authenticated ? <Authentication setAuthenticated={setAuthenticated}/>
+            !authenticated ? <Authentication props={{setAuthenticated}}/>
             :<>
             <Header />
 
@@ -50,5 +52,4 @@ function App() {
 
   );
 }
-
 export default App;

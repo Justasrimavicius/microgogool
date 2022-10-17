@@ -13,7 +13,7 @@ function MainPath() {
         },
         {
             secNum:3,
-            secDescr:'Real world sentence applications',
+            secBYBYSDescr:'Real world sentence applications',
         }
     ]
 

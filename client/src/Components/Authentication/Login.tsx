@@ -8,10 +8,9 @@ function Login(props: any){
     const [authErrorMsg, setAuthErrorMsg] = useState('');
 
     const { UID, setUID } = useContext(MyContext);
-
     function submitForm(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", 'http://localhost:8080/login', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
@@ -23,10 +22,8 @@ function Login(props: any){
             const parsedResponse = JSON.parse(xhr.responseText);
             if(parsedResponse.UID){
                 setUID(parsedResponse.UID);
-                console.log(parsedResponse.UID)
             } else {
                 setAuthErrorMsg(xhr.responseText);
-                console.log(xhr.responseText);
             }
         }
     }

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import Login from './Login.tsx';
+import Login from './Login';
 import Signup from './Signup';
 
-function Authentication(props) {
+interface props{
+    props: {setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>}
+}
+
+function Authentication(props: props) {
 
     const [authButton, setAuthButton] = useState('default');
 
@@ -12,7 +16,6 @@ function Authentication(props) {
             <div>
                 <p className='welcome-text'>Welcome to Microgoogol - a language learning platform!</p>
                 <div className='auth-inputs-holder'>
-
                     {
                     authButton=="default" ? 
                     
@@ -21,7 +24,7 @@ function Authentication(props) {
                     :
                     <> {
                         authButton=='login' ?
-                        <Login authState={{setAuthButton}} setAuthenticated={props.setAuthenticated.setAuthenticated}/>
+                        <Login authState={{setAuthButton}} setAuthenticated={props.props.setAuthenticated}/>
                         :
                         <Signup authState={{setAuthButton}}/>
                     } </>
