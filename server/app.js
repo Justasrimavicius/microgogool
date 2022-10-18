@@ -9,7 +9,7 @@ require('dotenv').config();
 
 let app = express();
 
-const authentication = require('./routes/authentication');
+const mainRoutes = require('./routes/mainRoutes');
 
 app.use(cookieParser());
 app.use(morgan('dev'));
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true}));
 
-app.use('/', authentication);
+app.use('/', mainRoutes);
 
 app.listen(process.env.PORT || 8080,()=>{console.log('backend listening')})
 

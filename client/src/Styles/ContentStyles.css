@@ -4,12 +4,90 @@ body{
 }
 main{
     width: 80vw;
-    height: 180vh;
-    margin: 0 10vw;
+    min-height: 180vh;
+    margin: 0 10vw 100px 10vw;
     background-color: rgb(177, 235, 177);
 
     padding-top: 10vh;
     display: grid;
     grid-template-columns: 1.5fr 4fr 2fr;
     grid-template-rows: 1fr;
+}
+
+
+
+
+
+
+
+
+.main-path{
+    width: 100%;
+    height: 100%;
+}
+.section-name-div{
+    width: 100%;
+    height: 100px;
+    background-color: rgb(162, 215, 162);
+    border-radius: 10px;
+    margin: 50px 0 30px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    box-shadow: 0px 10px 20px 0px #43434370;
+}
+.section-name-div button{
+    margin-right: 10px;
+    width: 20%;
+    background-color: #fff000;
+    border: 3px solid rgb(52, 68, 52);
+    border-bottom: 5px solid rgb(52, 68, 52);
+    color: rgb(52, 68, 52);
+}
+.section-name-div p{
+    margin: 0;
+    font-size: 1.5rem;
+    color: rgb(52, 68, 52);
+    font-weight: bold;
+    text-align: center;
+    margin-right: 10px;
+}
+.sections-lesson{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sections-lesson button{
+    background-color:darkseagreen;
+    border-radius: 20px;
+    border: 3px solid #fff000;
+    width: 250px;
+    min-height: 80px;
+    box-shadow: 0px 0px 20px 0px gray;
+}
+.sections-lesson button:nth-child(2n+1){
+    margin-left: 40px;
+    transform: rotate(1deg);
+}.sections-lesson button:nth-child(2n+2){
+    margin-right: 40px;
+    transform: rotate(-1deg);
+
+}
+.sections-lesson button:focus{
+    /* get rid of the previous global styles */
+    border-bottom: 3px solid #fff000;
+}
+.sections-lesson button:hover{
+    border-bottom: 4px solid #fff000;
+    border-top: 4px solid #fff000;
+    box-shadow: 0px 0px 20px 0px rgb(172, 159, 87);
+}
+.sections-lesson button p{
+    margin: 0 10%;
+    width: 80%;
+    font-size: 1.3rem;
+    color: rgb(84, 113, 84);
 }
