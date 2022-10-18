@@ -40,10 +40,10 @@ function MainPath() {
                     </div>
                     <div className='sections-lesson'>
                     {
-                        Object.entries(singleSection.individualLessons).map(singleLesson=>{
+                        Object.entries(singleSection.individualLessons).map((singleLesson,lessonIndex)=>{
                             if(typeof(singleLesson[1]) !== 'string')return;
                             return(
-                                <button><p>Lesson {singleLesson[0].slice(6,7)}: {singleLesson[1]}</p></button>
+                                <button key={`${lessonIndex}-btn`}><p>Lesson {singleLesson[0].slice(6,7)}: {singleLesson[1]}</p></button>
                             )
                         })
                     }

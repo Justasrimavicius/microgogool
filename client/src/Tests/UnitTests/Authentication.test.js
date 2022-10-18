@@ -1,14 +1,10 @@
-import App from '../../App';
+import App from 'src/app';
 
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
-
-import app from '../../../../server/firebase';
-import { act } from 'react-dom/test-utils';
 
 
-describe.skip('signup functionality works properly',function(){
+describe('signup functionality works properly',function(){
 
     beforeEach(()=>{
         render(<App />);
@@ -22,70 +18,81 @@ describe.skip('signup functionality works properly',function(){
     })
     it('signup flow with matching email/repeat email and password/repeat password values',async function(){
         await waitFor(async ()=>{
-            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
-            
-            const email = 'tuomis@gmail.com';
-            const password = 'Tuomis123';
 
-            await userEvent.type(screen.getByLabelText('Email:'),email);
-            await userEvent.type(screen.getByLabelText('Repeat email:'),email);
+          const email = 'tuomis@gmail.com';
+          const emailR = 'tuomis@gmail.com';
+          const password = 'Tuomis123';
+          const passwordR = 'Tuomis123';
 
-            await userEvent.type(screen.getByLabelText('Password:'),password);
-            await userEvent.type(screen.getByLabelText('Repeat password:'),password);
-            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
-
-            const auth = getAuth(app);
-            let isErrThrown = false;
-            act(()=>{createUserWithEmailAndPassword(auth,email,password)
-              .then(res=>{
-                // in this scneario, this .then is an error - it shouldnt reach this part of the code(unless the email changes in this test)
-                isErrThrown = true;
-              })
-              .catch(err=>{
-                // should catch an error for this scenario - testing email is the same, so it already exists in the database, therefore it should throw an error
-                // saying that it already exists
-                expect(err.code).toEqual('auth/email-already-in-use');
-              })
+            await new Promise((resolve,reject)=>{
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", 'http://localhost:8080/signup', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify({
+                  email,
+                  emailR,
+                  password,
+                  passwordR
+              }));
+              xhr.onload = ()=>{
+                  const parsedResponse = JSON.parse(xhr.responseText);
+                    expect(parsedResponse).toEqual('Email is already in use');
+                    resolve(parsedResponse)
+              }
             })
-            if(isErrThrown)expect(2).toEqual(1);
-        })
+      },{timeout: 3000})
     })
     it('signup with different email/repeat email', async function(){
-
         await waitFor(async ()=>{
-            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
-
             const email = 'tuomisis@gmail.com';
+            const emailR = 'tuomisisx@gmail.com'
             const password = 'Tuomis123';
+            const passwordR = 'Tuomis123';
 
-            await userEvent.type(screen.getByLabelText('Email:'),email);
-            await userEvent.type(screen.getByLabelText('Repeat email:'),email+'x');
-
-            await userEvent.type(screen.getByLabelText('Password:'),password);
-            await userEvent.type(screen.getByLabelText('Repeat password:'),password);
-
-            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
-            expect(screen.getByText(`emails don't match`)).toBeTruthy();
+            await new Promise((resolve,reject)=>{
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", 'http://localhost:8080/signup', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify({
+                  email,
+                  emailR,
+                  password,
+                  passwordR
+              }));
+              xhr.onload = ()=>{
+                  const parsedResponse = JSON.parse(xhr.responseText);
+                    expect(parsedResponse).toEqual(`Emails don't match`);
+                    resolve(parsedResponse)
+              }
+            })
         })
     })
     it('signup with different password/repeat password', async function(){
         await waitFor(async ()=>{
-            await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
             const email = 'tuomis@gmail.com';
+            const emailR = 'tuomis@gmail.com';
             const password = 'Tuomis123';
+            const passwordR = 'Tuomis123x';
 
-            await userEvent.type(screen.getByLabelText('Email:'),email);
-            await userEvent.type(screen.getByLabelText('Repeat email:'),email);
-
-            await userEvent.type(screen.getByLabelText('Password:'),password);
-            await userEvent.type(screen.getByLabelText('Repeat password:'),password+'x');
-            act(()=>{fireEvent.click(screen.getByRole('button', { name: /sign up/i }))});
-            expect(screen.getByText(`passwords don't match`)).toBeTruthy();
-
-
+            await new Promise((resolve,reject)=>{
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", 'http://localhost:8080/signup', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify({
+                  email,
+                  emailR,
+                  password,
+                  passwordR
+              }));
+              xhr.onload = ()=>{
+                  const parsedResponse = JSON.parse(xhr.responseText);
+                    expect(parsedResponse).toEqual(`Passwords don't match`);
+                    resolve(parsedResponse)
+              }
+            })
         })
-    })
+      })
 })
 
 describe('login functionality works properly',function(){
@@ -106,24 +113,21 @@ describe('login functionality works properly',function(){
             const email = 'testing@gmail.com';
             const password = 'testing123';
 
-            await userEvent.type(screen.getByLabelText('Email:'),email);
-            await userEvent.type(screen.getByLabelText('Password:'),password);
-
-            fireEvent.click(screen.getByRole('button', { name: /log in/i }));
-
-            const auth = getAuth(app);
-            let isErrThrown = false;
-
-            await act(async ()=>{await signInWithEmailAndPassword(auth, email, password)
-              .then((res) => {
-                // should be able to 
-                expect(res.user).toBeTruthy();
-              })
-              .catch((error) => {
-                isErrThrown = true;
-              });
+            await new Promise((resolve,reject)=>{
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", 'http://localhost:8080/login', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify({
+                  email,
+                  password
+              }));
+              xhr.onload = ()=>{
+                  const parsedResponse = JSON.parse(xhr.responseText);
+                  expect(parsedResponse.UID).toBeTruthy();
+                  resolve(parsedResponse.UID);
+              }
             })
-        if(isErrThrown)expect(2).toEqual(1);
+
     }, { timeout: '3000' })
     })
     it('login flow with incorrect(not existing) email',async function(){
@@ -133,30 +137,28 @@ describe('login functionality works properly',function(){
             const email = 'taratara@gmail.com';
             const password = 'taratara123';
 
-            await userEvent.type(screen.getByLabelText('Email:'),email);
-
-            await userEvent.type(screen.getByLabelText('Password:'),password);
-            fireEvent.click(screen.getByRole('button', { name: /log in/i }));
-
-
-            const auth = getAuth(app);
-            let isErrThrown = false;
-
-            await act(async ()=>{await signInWithEmailAndPassword(auth, email, password)
-              .then((res) => {
-                // as in previous tests, this .then is considered an error - incorrect login email shouldnt give a valid login
-                isErrThrown = true;
-              })
-              .catch((err) => {
-                expect(err).toBeTruthy();
-              });
+            await new Promise((resolve,reject)=>{
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", 'http://localhost:8080/login', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify({
+                  email,
+                  password
+              }));
+              xhr.onload = ()=>{
+                  const parsedResponse = JSON.parse(xhr.responseText);
+                  console.log(parsedResponse)
+                  expect(parsedResponse).toEqual('User not found');
+                  resolve(parsedResponse);
+              }
             })
-            if(isErrThrown)expect(2).toBe(1);
 
         }, { timeout:'3000' })
     })
 })
 
 
-// IMPORTANT -------------- tests are passing, truthy values replaced with falsy make the tests fail, therefore the tests are working properly,
-// even though it shows weird warning errors about act() in the console.
+// most authentication cases are tested, but cant seem to think of a way to test an actual signup(when the email is not in use).
+
+// also, skip this test when it is not needed - firebase will throw "network request failed" after a lot of authentication requests.
+// if it happens, just wait it out for 5-10 minutes
