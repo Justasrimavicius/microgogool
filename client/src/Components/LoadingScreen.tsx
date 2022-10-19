@@ -5,7 +5,6 @@ function LoadingScreen() {
     const loadingScreenRef = useRef<any>(null);
 
     useEffect(()=>{
-        console.log(loadingScreenRef)
         setTimeout(() => {
         loadingScreenRef.current.style.opacity='1';
         }, 10);

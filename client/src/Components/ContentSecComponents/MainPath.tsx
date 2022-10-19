@@ -1,42 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { LegacyRef, useEffect, useState } from 'react';
 
-
-interface sectionDataI{
+interface allSectionsData{
     secNum: number,
     secDescr: string,
     individualLessons: {
         [key: string]: string
     }
 }
+interface props{
+    sectionLessons: {
+        sectionNum: number,
+        setSectionNum: React.Dispatch<React.SetStateAction<number>>
+    },
+    refs: {mainPathRef: LegacyRef<HTMLDivElement>}
+    allSectionsDataState:{
+    allSectionsData: any,
+    setAllSectionsData: React.Dispatch<React.SetStateAction<allSectionsData[]>>
+    }
+}
 
-function MainPath() {
+function MainPath(props: props) {
 
-    const [sectionData, setSectionData] = useState<Array<sectionDataI>>([{secNum: 1, secDescr: 'axo', individualLessons: {}}]);
-
-    useEffect(()=>{
-        fetch('http://localhost:8080/sectionsData')
-          .then(res=>{
-            res.json()
-              .then(finalData=>{
-                setSectionData(finalData);
-            })
-          })
-    },[])
-
-    useEffect(()=>{
-        // console.log(sectionData)
-
-    },[sectionData])
+    const [allSectionsData, setAllSectionsData] = useState<allSectionsData[]>(props.allSectionsDataState.allSectionsData);
 
     return (
-        <div className='main-path'>
-            {sectionData.map((singleSection,index)=>{
-                // console.log(singleSection)
+        <div className='main-path' ref={props.refs.mainPathRef}>
+            {allSectionsData.map((singleSection,index)=>{
                 return(
                 <div className={`section-${singleSection.secNum}`} key={`${index}`}>
                     <div className='section-name-div'>
                         <p>section {singleSection.secNum}: {singleSection.secDescr}</p>
-                        <button>Start</button>
+                        <button onClick={()=>{props.sectionLessons.setSectionNum(singleSection.secNum)}}>Start</button>
                     </div>
                     <div className='sections-lesson'>
                     {
