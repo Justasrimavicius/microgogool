@@ -98,19 +98,97 @@ main{
 
 /* SecionLessons.tsx styles */
 .lessons-div{
-    position: fixed;
+    position: absolute;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     left: 0vw !important;
-    background-color: rgb(177, 235, 300);
+    background-color: rgb(177, 235, 177);
 
     transition: 1s all;
 }
 .lessons-div-fadeInAnim{
-    position: fixed;
+    position: absolute;
     left: -100vw;
     width: 100vw;
     height: 100vh;
 
     transition: 1s all;
+}
+.single-lesson{
+    width: 100%;
+    height: 100%;
+}
+.single-question{
+    width: 100%;
+    height: 30vh;
+    box-shadow: 0px 6px 20px 0px black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+.single-question-title{
+    text-align: center;
+    font-size: 1.5rem;
+    color: #5c7b5c;
+    font-weight: bold;
+}
+.single-question-possibleAnswers,
+.single-question-DragAndDrop-words{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.single-question-possibleAnswers-singleAnswer,
+.single-question-DragAndDrop-singleWord{
+    font-size: 1.1rem;
+    font-size: 1.1rem;
+    background-color: #a0a0a05c;
+    padding: 5px 20px;
+    border-radius: 10px;
+    background-color: #fff886;
+    border: 2px solid rgb(52, 68, 52);
+    color: rgb(52, 68, 52);
+    box-shadow: 0px 0px 3px 0px black;
+    border-radius: 10px;
+    
+    /* transition: 0.6s all;
+    animation: width 5s answerClick ease-out;
+    animation-name: answerClick;
+    animation-duration: 4s; */
+}
+.single-question-possibleAnswers-singleAnswer:hover,
+.single-question-DragAndDrop-singleWord:hover{
+    background-color: #ccd22a;
+    box-shadow: 0px 0px 10px 0px rgb(83, 83, 83);
+}
+.single-question-possibleAnswers-singleAnswer:focus,
+.single-question-DragAndDrop-singleWord:focus{
+    transform: scale(1.5);
+    box-shadow: 0px 0px 10px 0px rgb(83, 83, 83);
+}
+
+/* @keyframes answerClick{
+    from{
+        transform: scale(0);
+    }
+    80%{
+        transform: scale(1);
+    }
+    20%{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(0);
+    }
+} */
+
+.singlePossibleAnswer-selected{
+    background-color: rgb(210, 255, 216);
+}
+.singlePossibleAnswer-selected:hover{
+    background-color: rgb(210, 255, 216);
 }

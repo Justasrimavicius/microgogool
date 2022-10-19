@@ -18,7 +18,7 @@ exports.sectionsData = (req,res,next)=>{
                 {
                     questionFormat: 'SelectOne',
                     title: 'Which one of these 3 words - "clap", "say" or "bake" - means "kepti"?',
-                    possibleAnswers: ["ploti", "sakyti", "kepti"],
+                    possibleAnswers: ["clap", "say", "bake"],
                     correctAnswer: ["bake"]
                 },
                 lesson3Title: 'Select the correct verbs',
