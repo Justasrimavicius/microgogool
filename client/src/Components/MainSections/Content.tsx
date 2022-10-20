@@ -19,11 +19,20 @@ function Content() {
     const mainPathRef = useRef<HTMLDivElement>(null);
     useEffect(()=>{
         if(sectionNum!=-1){
-            setTimeout(() => {
-                if(mainPathRef.current!=null){ // checks for typescript
-                    mainPathRef.current.style.display='none';
-                }
-            }, 2000);
+            if(mainPathRef.current!=null){ // checks for typescript
+                mainPathRef.current.style.opacity='0';
+                setTimeout(() => {
+                    if(mainPathRef.current!=null){
+                        mainPathRef.current.style.display='none';
+                        const footer = document.querySelector('footer');
+                        if(footer){
+                            footer.style.opacity='0';
+                            footer.style.visibility='hidden';
+                        }
+                        loadSpecificSection(true);
+                    }
+                }, 500);
+            }
 
             if(allSectionsData!=null){
                 allSectionsData.map(specificSection=>{
@@ -32,7 +41,6 @@ function Content() {
                     }
                 })
             }
-            loadSpecificSection(true);
         }
 
     },[sectionNum])
@@ -46,13 +54,27 @@ function Content() {
             })
     },[])
 
+    useEffect(()=>{
+        if(specificSection!=true){
+            if(mainPathRef.current!=null){
+                mainPathRef.current.style.opacity='1';
+                mainPathRef.current.style.display='block';
+                const footer = document.querySelector('footer');
+                if(footer){
+                    footer.style.opacity='1';
+                    footer.style.visibility='visible';
+                }
+            }
+        }
+    },[specificSection])
+
     return (
         <main>
             <nav className='main-left-nav'>
 
             </nav>
             {allSectionsData.length!= 1 ? <MainPath sectionLessons={{sectionNum, setSectionNum}} refs={{mainPathRef}} allSectionsDataState={{allSectionsData, setAllSectionsData}}/> : null}
-            {specificSection!=false ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData}/> : null}
+            {specificSection!=false ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadSpecificSection}}/> : null}
             <div className='main-right'>
 
             </div>

@@ -24,6 +24,8 @@ main{
 .main-path{
     width: 100%;
     height: 100%;
+
+    transition: 0.6s all;
 }
 .section-name-div{
     width: 100%;
@@ -40,7 +42,7 @@ main{
 }
 .section-name-div button{
     margin-right: 10px;
-    width: 20%;
+    min-width: 20%;
     background-color: #fff000;
     border: 3px solid rgb(52, 68, 52);
     border-bottom: 5px solid rgb(52, 68, 52);
@@ -104,11 +106,20 @@ main{
     left: 0vw !important;
     background-color: rgb(177, 235, 177);
 
-    transition: 1s all;
+    transition: 1s transform, 1s opacity;
+
 }
 .lessons-div-fadeInAnim{
     position: absolute;
     left: -100vw;
+    width: 100vw;
+    height: 100vh;
+
+    transition: 1s all;
+}
+.lessons-div-fadeOutAnim{
+    position: absolute;
+    left: 100vw;
     width: 100vw;
     height: 100vh;
 
@@ -120,27 +131,25 @@ main{
 }
 .single-question{
     width: 100%;
-    height: 30vh;
+    min-height: 30vh;
     box-shadow: 0px 6px 20px 0px black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
+    padding-bottom: 20px;
 }
 .single-question-title{
     text-align: center;
     font-size: 1.5rem;
     color: #5c7b5c;
     font-weight: bold;
+    margin: 24px 10px;
 }
 .single-question-possibleAnswers,
 .single-question-DragAndDrop-words{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
+    width: 60%;
 }
 .single-question-possibleAnswers-singleAnswer,
 .single-question-DragAndDrop-singleWord{
@@ -154,41 +163,44 @@ main{
     color: rgb(52, 68, 52);
     box-shadow: 0px 0px 3px 0px black;
     border-radius: 10px;
-    
-    /* transition: 0.6s all;
-    animation: width 5s answerClick ease-out;
-    animation-name: answerClick;
-    animation-duration: 4s; */
+    width: 100%;
+    margin: 1vw;
+
+    transition: 0.6s all;
 }
 .single-question-possibleAnswers-singleAnswer:hover,
 .single-question-DragAndDrop-singleWord:hover{
-    background-color: #ccd22a;
     box-shadow: 0px 0px 10px 0px rgb(83, 83, 83);
 }
-.single-question-possibleAnswers-singleAnswer:focus,
-.single-question-DragAndDrop-singleWord:focus{
-    transform: scale(1.5);
-    box-shadow: 0px 0px 10px 0px rgb(83, 83, 83);
-}
-
-/* @keyframes answerClick{
-    from{
-        transform: scale(0);
-    }
-    80%{
-        transform: scale(1);
-    }
-    20%{
-        transform: scale(1);
-    }
-    to{
-        transform: scale(0);
-    }
-} */
 
 .singlePossibleAnswer-selected{
-    background-color: rgb(210, 255, 216);
+    transform: scale(1.05);
+    background-color: rgba(255, 252, 252, 0);
 }
 .singlePossibleAnswer-selected:hover{
-    background-color: rgb(210, 255, 216);
+    box-shadow: 0px 0px 3px 0px rgb(83, 83, 83);
+    background-color: rgba(255, 255, 255, 0);
 }
+.single-lesson-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+    margin-bottom: 40px;
+    gap: 10px;
+}
+.single-lesson-buttons button{
+    font-size: 1rem;
+    width: 150px;
+    height: 50px;
+}
+
+
+
+
+
+@media (max-width: 600px) {
+
+  }
