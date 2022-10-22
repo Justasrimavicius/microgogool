@@ -35,7 +35,7 @@ function MainPath(props: props) {
                 <div className={`section-${singleSection.secNum}`} key={`${index}`}>
                     <div className='section-name-div'>
                         <p>section {singleSection.secNum}: {singleSection.secDescr}</p>
-                        <button onClick={()=>{props.sectionLessons.setSectionNum(singleSection.secNum)}}>Start</button>
+                        <button onClick={()=>{props.sectionLessons.setSectionNum(singleSection.secNum)}} data-testid={`startBtn${index}`}>Start</button>
                     </div>
                     <div className='sections-lesson'>
                     {
