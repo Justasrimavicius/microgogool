@@ -19,17 +19,16 @@ function Content() {
     const mainPathRef = useRef<HTMLDivElement>(null);
     useEffect(()=>{
         if(sectionNum!=-1){
-            if(mainPathRef.current!=null){ // checks for typescript
+            if(mainPathRef.current!=null){
+                const footer = document.querySelector('footer');
+                if(footer)footer.style.opacity='0';
                 mainPathRef.current.style.opacity='0';
+                loadSpecificSection(true);
+                window.scrollTo({top: 0, behavior: 'smooth'});
                 setTimeout(() => {
                     if(mainPathRef.current!=null){
                         mainPathRef.current.style.display='none';
-                        const footer = document.querySelector('footer');
-                        if(footer){
-                            footer.style.opacity='0';
-                            footer.style.visibility='hidden';
-                        }
-                        loadSpecificSection(true);
+                        if(footer)footer.style.display='none';
                     }
                 }, 500);
             }
@@ -43,7 +42,8 @@ function Content() {
             }
         }
 
-    },[sectionNum])
+    },[sectionNum]);
+    
     useEffect(()=>{
         fetch('http://localhost:8080/sectionsData')
             .then(res=>{
@@ -57,13 +57,21 @@ function Content() {
     useEffect(()=>{
         if(specificSection!=true){
             if(mainPathRef.current!=null){
-                mainPathRef.current.style.opacity='1';
                 mainPathRef.current.style.display='block';
+                setTimeout(() => {
+                    if(mainPathRef.current!=null){
+                        mainPathRef.current.style.opacity='1';
+                    }
+
+                }, 10);
                 const footer = document.querySelector('footer');
                 if(footer){
-                    footer.style.opacity='1';
-                    footer.style.visibility='visible';
+                    footer.style.display='block';
+                    setTimeout(() => {
+                        footer.style.opacity='1';
+                    }, 10);
                 }
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }
         }
     },[specificSection])

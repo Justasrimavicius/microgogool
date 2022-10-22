@@ -211,23 +211,46 @@ function SectionLessons(props: props) {
 
         )
     }
+
+
     function loadQuestion_DragAndDrop(questionInfoObj: questionInfoObj){
         questionCounterRef.current++;
+
+
+        function onDropFunc(e: any){
+            console.log(e);
+            e.preventDefault();
+            const data = e.dataTransfer.getData("application/my-app");
+            e.currentTarget.appendChild(document.getElementById(data));
+        }
+        function onDragOverFunc(e: any){
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        }
+        function ondragstartFunc(e: any){
+            console.log(e);
+            
+            e.dataTransfer.setData("application/my-app", e.target.id);
+            e.dataTransfer.effectAllowed = "move";
+        }
 
         return(
             <React.Fragment>
                 <div className='question-DragAndDrop single-question'>
                     <p className='single-question-title'>Question {lessonNumber}: {questionInfoObj.title}</p>
-                    <div className='single-question-DragAndDrop-words'>{questionInfoObj.possibleAnswers.map((singleWord,index)=>{
+                    <div className='single-question-DragAndDrop-words' onDrop={(e)=>{onDropFunc(e)}} onDragOver={(e)=>{onDragOverFunc(e)}}>{questionInfoObj.possibleAnswers.map((singleWord,index)=>{
                         return(
                             <button className='single-question-DragAndDrop-singleWord'
                             key={`${index}DaD-${singleWord}`}
                             id={`${index}DaD-${singleWord}`}
+                            onDragStart={(e)=>{ondragstartFunc(e)}}
+                            draggable='true'
                             >
-                                {singleWord}
+                            {singleWord}
                             </button>
                         )
                     })}</div>
+                    <div className='single-question-DragAndDrop-location' onDrop={(e)=>{onDropFunc(e)}} onDragOver={(e)=>{onDragOverFunc(e)}}></div>
                 </div>
                 {loadQuestions(arrayIndividualLessons)}
             </React.Fragment>

@@ -23,6 +23,11 @@ function MainPath(props: props) {
 
     const [allSectionsData, setAllSectionsData] = useState<allSectionsData[]>(props.allSectionsDataState.allSectionsData);
 
+    useEffect(()=>{
+        props.sectionLessons.setSectionNum(-1);
+    })
+
+
     return (
         <div className='main-path' ref={props.refs.mainPathRef}>
             {allSectionsData.map((singleSection,index)=>{
