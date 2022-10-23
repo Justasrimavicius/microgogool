@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState } from 'react';
 import MainPath from '../ContentSecComponents/MainPath';
+import MistakesTab from '../ContentSecComponents/MistakesTab';
+import ShopTab from '../ContentSecComponents/ShopTab';
 import SectionLessons from '../ContentSecComponents/SectionLessons';
 
 interface allSectionsData{
@@ -14,8 +16,12 @@ function Content() {
     const [sectionNum, setSectionNum] = useState<number>(-1); // user chooses section in MainPath to go through the lessons. This useState loads the approriate sections lessons
     const [allSectionsData, setAllSectionsData] = useState<allSectionsData[]>([{secNum: -1, secDescr: '', individualLessons: {}}]);
     const [specificSectionsData, setSpecificSectionsData] = useState<{secNum: number, secDescr: string, individualLessons: {[key: string]: string}}>({secNum: -1, secDescr: '',individualLessons: {'something': 'something else'}});
-    const [specificSection, loadSpecificSection] = useState<boolean>(false);
     
+    const [stateForMainPathFade, setStateForMainPathFade] = useState<boolean>(false);
+
+    // mainPath, specificSection, mistakesTab or shopTab
+    const [centerPathContent, loadCenterPathContent] = useState<string>('');
+
     const mainPathRef = useRef<HTMLDivElement>(null);
     useEffect(()=>{
         if(sectionNum!=-1){
@@ -23,7 +29,8 @@ function Content() {
                 const footer = document.querySelector('footer');
                 if(footer)footer.style.opacity='0';
                 mainPathRef.current.style.opacity='0';
-                loadSpecificSection(true);
+                console.log('bad footer')
+                loadCenterPathContent('specificSection');
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 setTimeout(() => {
                     if(mainPathRef.current!=null){
@@ -40,6 +47,8 @@ function Content() {
                     }
                 })
             }
+            setStateForMainPathFade(false);
+
         }
 
     },[sectionNum]);
@@ -50,39 +59,47 @@ function Content() {
             res.json()
                 .then(finalData=>{
                 setAllSectionsData(finalData);
+                loadCenterPathContent('mainPath');
                 })
             })
     },[])
 
     useEffect(()=>{
-        if(specificSection!=true){
-            if(mainPathRef.current!=null){
-                mainPathRef.current.style.display='block';
-                setTimeout(() => {
-                    if(mainPathRef.current!=null){
-                        mainPathRef.current.style.opacity='1';
-                    }
+        window.scrollTo({top: 0, behavior: 'smooth'});
 
+        if(centerPathContent=='mainPath'){
+            setStateForMainPathFade(true);
+        }
+        if(centerPathContent!='specificSection'){
+            const footer = document.querySelector('footer');
+            if(footer){
+                footer.style.display='block';
+                setTimeout(() => {
+                    footer.style.opacity='1';
                 }, 10);
-                const footer = document.querySelector('footer');
-                if(footer){
-                    footer.style.display='block';
-                    setTimeout(() => {
-                        footer.style.opacity='1';
-                    }, 10);
-                }
-                window.scrollTo({top: 0, behavior: 'smooth'});
             }
         }
-    },[specificSection])
+        console.log(centerPathContent)
+    },[centerPathContent])
 
     return (
         <main>
-            <nav className='main-left-nav'>
-
-            </nav>
-            {allSectionsData.length!= 1 ? <MainPath sectionLessons={{sectionNum, setSectionNum}} refs={{mainPathRef}} allSectionsDataState={{allSectionsData, setAllSectionsData}}/> : null}
-            {specificSection!=false ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadSpecificSection}}/> : null}
+            {centerPathContent!='specificSection' ? <nav className='main-left-nav'>
+                {centerPathContent=='mainPath' ? 
+                <button className='mainPath-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('mainPath')}}>Main path</button> : 
+                <button className='mainPath-tab-btn' onClick={()=>{loadCenterPathContent('mainPath')}}>Main path</button>}
+                {centerPathContent=='mistakesTab' ?
+                <button className='mistakes-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('mistakesTab')}}>Your mistakes</button> :
+                <button className='mistakes-tab-btn' onClick={()=>{loadCenterPathContent('mistakesTab')}}>Your mistakes</button>}
+                {centerPathContent=='shopTab' ? 
+                <button className='shop-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button> :
+                <button className='shop-tab-btn' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button>
+                }
+            </nav> : null}
+            {(centerPathContent=='mainPath' && stateForMainPathFade==true) ? <MainPath sectionLessons={{sectionNum, setSectionNum}} refs={{mainPathRef}} allSectionsDataState={{allSectionsData, setAllSectionsData}}/> : null}
+            {centerPathContent=='specificSection' ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadCenterPathContent}}/> : null}
+            {centerPathContent=='mistakesTab' ? <MistakesTab /> : null}
+            {centerPathContent=='shopTab' ? <ShopTab /> : null}
             <div className='main-right'>
 
             </div>

@@ -11,7 +11,7 @@ interface props{
         }
     }
     goBack: {
-        loadSpecificSection: React.Dispatch<React.SetStateAction<boolean>>
+        loadCenterPathContent: React.Dispatch<React.SetStateAction<string>>
     }
 }
 interface questionInfoObj{
@@ -47,15 +47,12 @@ function SectionLessons(props: props) {
     function loadQuestions(arrayIndividualLessons: any): React.ReactElement | null{
 
         if(!arrayIndividualLessons[questionCounterRef.current]){
-            console.log('empty lessons')
             return null;
             // no more lessons in the array left
         } else {
             // still elements left in the array
             if(arrayIndividualLessons[questionCounterRef.current][1].title){
                 // the element (arrayIndividualLessons[questionsCounterRef.current][1]) is question element - its second array elements contains info about questions
-                console.log('this array contains information about the question')
-                console.log(arrayIndividualLessons[questionCounterRef.current][1])
                 lessonNumber = arrayIndividualLessons[questionCounterRef.current][0].slice(6,7);
                 if(arrayIndividualLessons[questionCounterRef.current][1].questionFormat=='SelectOne'){
                     return LoadQuestion_SelectOne(arrayIndividualLessons[questionCounterRef.current][1]);
@@ -71,10 +68,6 @@ function SectionLessons(props: props) {
                 
             } else {
                 // the elements [1] element is the title of the question(question number is in [0])
-                console.log('this array contains the title of the question');
-                console.log(arrayIndividualLessons[questionCounterRef.current][1])
-                console.log(arrayIndividualLessons[questionCounterRef.current][0])
-
             }
         }
 
@@ -218,7 +211,6 @@ function SectionLessons(props: props) {
 
 
         function onDropFunc(e: any){
-            console.log(e);
             e.preventDefault();
             const data = e.dataTransfer.getData("application/my-app");
             e.currentTarget.appendChild(document.getElementById(data));
@@ -228,7 +220,6 @@ function SectionLessons(props: props) {
             e.dataTransfer.dropEffect = "move";
         }
         function ondragstartFunc(e: any){
-            console.log(e);
             
             e.dataTransfer.setData("application/my-app", e.target.id);
             e.dataTransfer.effectAllowed = "move";
@@ -261,11 +252,10 @@ function SectionLessons(props: props) {
 
     function returnToMain(){
         const mainPath = document.querySelector('.main-path') as HTMLElement;
-        console.log(lessonsDivRef.current);
         lessonsDivRef.current?.classList.add('lessons-div-fadeOutAnim');
         lessonsDivRef.current?.classList.remove('lessons-div');
         setTimeout(() => {
-            props.goBack.loadSpecificSection(false);
+            props.goBack.loadCenterPathContent('mainPath');
         }, 1000);
     }
 

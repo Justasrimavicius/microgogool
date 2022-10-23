@@ -3,14 +3,13 @@ body{
     background-color: rgb(177, 235, 177);
 }
 main{
-    width: 80vw;
-    /* min-height: 100vh; */
-    margin: 0 10vw 100px 10vw;
+    width: 90vw;
+    margin: 0 5vw 100px 5vw;
     background-color: rgb(177, 235, 177);
 
     padding-top: 10vh;
     display: grid;
-    grid-template-columns: 1.5fr 4fr 2fr;
+    grid-template-columns: 2fr 4fr 2fr;
     grid-template-rows: 1fr;
 }
 
@@ -216,9 +215,48 @@ main{
     width: 150px;
     height: 50px;
 }
+.main-left-nav{
+    margin-top: 50px;
+}
+.main-left-nav button{
+    width: 80%;
+    margin: 3px 10%;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+}
+.main-left-nav button:hover{
+    background-color: rgb(232, 232, 232);
+}
+.main-left-nav button:focus{
+    border: none;
+    border: 2px solid rgb(92, 122, 92);
+    background-color: rgb(237, 255, 158);
+}
+.tab-btn-selected{
+    border: 2px solid rgb(92, 122, 92);
+    background-color: rgb(237, 255, 158);
+}
+.tab-btn-selected:hover{
+    background-color: rgb(242, 255, 0) !important;
+}
 
 
 
+
+
+
+
+
+
+
+.mistakes-tab{
+    min-height: 100vh;
+}
+.shop-tab{
+    min-height: 100vh;
+}
 
 
 @media (max-width: 600px) {

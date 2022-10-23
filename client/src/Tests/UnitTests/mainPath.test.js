@@ -44,4 +44,7 @@ describe('main path testing',function(){
             expect(screen.findByText(/question 2: which english sentence is the translation of this lithuanian sentence: "ėjau link katedros, kur ir sutikau pijaus mamą\."/i)).toBeTruthy();
         })
     })
+    it.skip('able to do the whole lesson - choose answers and submit them',function(){
+        // will do this part near the end of the project(the biggest part left, in my opinion).
+    })
 })
