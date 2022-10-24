@@ -300,14 +300,130 @@ main{
 
 
 .mistakes-tab{
-    min-height: 100vh;
+    min-height: 80vh;
     grid-column: 2/3;
+    background-color: darkseagreen;
+    margin-top: 50px;
+    margin-bottom: -50px;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
-.shop-tab{
-    min-height: 100vh;
-    grid-column: 2/3;
+.mistakes-tab > img{
+    width: 60%;
+}
+.mistakes-tab > p,
+.shop-tab > p{
+    font-size: 1.5rem;
+    color: rgb(52, 68, 52);
+    font-weight: bold;
+}
+.mistake{
+    background: #f7ffe2;;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    margin: 10px;
+    font-size: 1.1rem;
+}
+.mistake-title{
+    color: darkseagreen;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.mistake-userAnswer{
+    color: #a41515;
+}
+.mistake-correctAnswer{
+    color: #5aca5a;
 }
 
+
+.shop-tab{
+    min-height: 80vh;
+    grid-column: 2/3;
+    background-color: darkseagreen;
+    margin-top: 50px;
+    margin-bottom: -50px;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.shop-tab > img{
+    margin-top: 20px;
+    width: 60%;
+    height: auto;
+}
+.shop{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.shop-perk{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 90%;
+    background-color: beige;
+    border-radius: 15px;
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid black;
+}
+.shop-perk-upper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.shop-perk-upper img{
+    height: 50px;
+    width: auto;
+}
+.shop-perk-upper .perk-title{
+    margin-left: 5px;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: darkseagreen;
+}
+.shop-perk-lower{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.shop-perk-lower p{
+    width: 55%;
+    font-size: 1.2rem;
+}
+.shop-perk-lower button{
+    margin-left: 5px;
+    min-width: 30%;
+    min-height: 50px;
+    background-color: rgb(255, 231, 95);    
+    
+}
+/* <div className='shop-perk'>
+    <div className='shop-perk-upper'>
+        <img src={require(`../../Photos/double-point.png`)} alt='double points icon'></img>
+        <p className='perk-title'>Doubly-pointy</p>
+    </div>
+    <div className='shop-perk-lower'>
+        <p className='perk-description'>Double points - double the points that you get from your next lesson.</p>
+        <button>Buy</button>
+    </div>
+</div> */
 
 @media (max-width: 600px) {
     .single-question-DragAndDrop-singleWord{

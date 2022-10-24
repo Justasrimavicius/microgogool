@@ -7,7 +7,7 @@ function Header() {
             <div className='header-content'>
             <p>Microgoogol</p>
             <div className='header-content-right'>
-                <img src={require('../../Photos/userIcon.png')}></img>
+                <img src={require('../../Photos/userIcon.png')} alt='user icon'></img>
             </div>
             </div>
 
