@@ -20,12 +20,17 @@ interface questionInfoObj{
     questionFormat: string,
     title: string
 }
-
+interface selectedAnswersArrInterface{
+        questionTitle: string,
+        answeredWord: string[],
+        questionObject: any
+}
 function SectionLessons(props: props) {
 
     const lessonsDivRef = useRef<HTMLDivElement>(null);
 
     const [arrayIndividualLessons, setArrayIndividualLessons] = useState<any>(Object.entries(props.specificSectionsData.individualLessons));
+    const selectedAnswersArr = useRef<selectedAnswersArrInterface[]>([]);
 
     useEffect(()=>{
         setTimeout(() => {
@@ -63,16 +68,8 @@ function SectionLessons(props: props) {
                 if(arrayIndividualLessons[questionCounterRef.current][1].questionFormat=='DragAndDrop'){
                     return loadQuestion_DragAndDrop(arrayIndividualLessons[questionCounterRef.current][1]);
                 }
-
-
-                
-            } else {
-                // the elements [1] element is the title of the question(question number is in [0])
             }
         }
-
-
-
 
 
         questionCounterRef.current++;
@@ -91,7 +88,7 @@ function SectionLessons(props: props) {
         const possibleAnswersNum = questionInfoObj.correctAnswer.length;
 
 
-        function answer_SO_Selected(id: string){
+        function answer_SO_Selected(id: string, title: string){
         // document.getElementById(`${index}SM-${singleAnswer}`)?.classList.add('singlePossibleAnswer-selected')
 
             // clicked element
@@ -108,6 +105,13 @@ function SectionLessons(props: props) {
                         selectedElement.classList.remove('singlePossibleAnswer-selected');
                     }
                 })
+                selectedAnswersArr.current.map((singleAnsweredQuestion,index)=>{
+                    if(title==singleAnsweredQuestion.questionTitle){
+                        const wordIndex = singleAnsweredQuestion.answeredWord.indexOf(selectedElement.innerText);
+                        console.log(wordIndex)
+                        singleAnsweredQuestion.answeredWord.splice(wordIndex,1)
+                    }
+                })
                 return;
             }
             // else, push the new clicked value to the array and add the class of selected answer
@@ -120,6 +124,39 @@ function SectionLessons(props: props) {
                 if(removedElement==null)return;
                 removedElement.classList.remove('singlePossibleAnswer-selected');
             }
+            const clickedButtonInfo = {
+                questionTitle: title,
+                answeredWord: [answersSelected.current[answersSelected.current.length-1].id.split('-')[1]],
+                questionObject: questionInfoObj
+            }
+            if(selectedAnswersArr.current.length==0){
+                selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo];
+                console.log(selectedAnswersArr.current);
+
+            } else{
+                for(let index = 0; index < selectedAnswersArr.current.length; index++){
+                    console.log(selectedAnswersArr.current[index].questionTitle);
+                    console.log(clickedButtonInfo.questionTitle);
+                    console.log('-----')
+                    if(selectedAnswersArr.current[index].questionTitle==clickedButtonInfo.questionTitle){
+                        if(selectedAnswersArr.current[index].questionObject.correctAnswer.length!=selectedAnswersArr.current[index].answeredWord.length){
+                            selectedAnswersArr.current[index].answeredWord.push(clickedButtonInfo.answeredWord[0]);
+                        } else {
+                            selectedAnswersArr.current[index].answeredWord.push(clickedButtonInfo.answeredWord[0]);
+                            selectedAnswersArr.current[index].answeredWord.shift();
+                        }
+                        console.log(selectedAnswersArr.current);
+                        return;
+                    } else if(index==selectedAnswersArr.current.length-1){
+                        selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo]
+                        console.log(selectedAnswersArr.current);
+                    }
+                }
+
+            }
+
+        
+
         }
 
         questionCounterRef.current++;
@@ -132,8 +169,7 @@ function SectionLessons(props: props) {
                         <button className='single-question-possibleAnswers-singleAnswer' 
                         key={`${index}SO-${singleAnswer}`}
                         id={`${index}SO-${singleAnswer}`}
-                        // onClick={()=>{document.getElementById(`${index}SO-${singleAnswer}`)?.classList.add('singlePossibleAnswer-selected')}}
-                        onClick={()=>{answer_SO_Selected(`${index}SO-${singleAnswer}`)}}
+                        onClick={()=>{answer_SO_Selected(`${index}SO-${singleAnswer}`, questionInfoObj.title)}}
                         >
                         {singleAnswer}</button>
                     )
@@ -153,21 +189,26 @@ function SectionLessons(props: props) {
         const possibleAnswersNum = questionInfoObj.correctAnswer.length;
 
 
-        function answer_SM_Selected(id: string){
-        // document.getElementById(`${index}SM-${singleAnswer}`)?.classList.add('singlePossibleAnswer-selected')
-
+        function answer_SM_Selected(id: string, title: string){
             // clicked element
             const selectedElement = document.getElementById(id);
 
             if(selectedElement==null){
                 return;
             }
-            // if user clicks the same answer, remove if from selected answers array and remove its answered class
+            // if user clicks the same answer, remove it from selected answers array and remove its answered class
             if(answersSelected.current.includes(selectedElement)){
                 answersSelected.current.map((element,index)=>{
                     if(element==selectedElement){
                         answersSelected.current.splice(index,1);
                         selectedElement.classList.remove('singlePossibleAnswer-selected');
+                    }
+                })
+                selectedAnswersArr.current.map((singleAnsweredQuestion,index)=>{
+                    if(title==singleAnsweredQuestion.questionTitle){
+                        const wordIndex = singleAnsweredQuestion.answeredWord.indexOf(selectedElement.innerText);
+                        console.log(wordIndex)
+                        singleAnsweredQuestion.answeredWord.splice(wordIndex,1)
                     }
                 })
                 return;
@@ -182,6 +223,31 @@ function SectionLessons(props: props) {
                 if(removedElement==null)return;
                 removedElement.classList.remove('singlePossibleAnswer-selected');
             }
+            const clickedButtonInfo = {
+                questionTitle: title,
+                answeredWord: [answersSelected.current[answersSelected.current.length-1].id.split('-')[1]],
+                questionObject: questionInfoObj
+            }
+            if(selectedAnswersArr.current.length==0){
+                selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo];
+            } else{
+                for(let index = 0; index < selectedAnswersArr.current.length; index++){
+                    if(selectedAnswersArr.current[index].questionTitle==clickedButtonInfo.questionTitle){
+                        if(selectedAnswersArr.current[index].questionObject.correctAnswer.length!=selectedAnswersArr.current[index].answeredWord.length){
+                            selectedAnswersArr.current[index].answeredWord.push(clickedButtonInfo.answeredWord[0]);
+                        } else {
+                            selectedAnswersArr.current[index].answeredWord.push(clickedButtonInfo.answeredWord[0]);
+                            selectedAnswersArr.current[index].answeredWord.shift();
+                        }
+                        return;
+                    } else if(index==selectedAnswersArr.current.length-1){
+                        selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo]
+                    }
+                }
+
+                console.log(selectedAnswersArr.current);
+
+            }
         }
 
         return(
@@ -193,7 +259,7 @@ function SectionLessons(props: props) {
                             <button className='single-question-possibleAnswers-singleAnswer' 
                             key={`${index}SM-${singleAnswer}`}
                             id={`${index}SM-${singleAnswer}`}
-                            onClick={()=>{answer_SM_Selected(`${index}SM-${singleAnswer}`)}}
+                            onClick={()=>{answer_SM_Selected(`${index}SM-${singleAnswer}`, questionInfoObj.title)}}
                             >
                             {singleAnswer}</button>
                         )
@@ -259,13 +325,64 @@ function SectionLessons(props: props) {
         }, 1000);
     }
 
+    function checkAnswers(){
+        // firstly check DragAndDrop question if it exists
+        if(document.querySelector('.single-question-DragAndDrop-location')){
+            let DragAndDropAnswers;
+            let userDragAndDropAnswers: any = [];
+            let DnDpoints: string = '';
+            document.querySelectorAll('.single-question-DragAndDrop-location .single-question-DragAndDrop-singleWord').forEach((element: any)=>{
+                userDragAndDropAnswers.push(element.innerText)
+            });
+            
+
+            const questionObject: any = Object.entries(props.specificSectionsData.individualLessons).filter(element=>{
+                if(typeof element[1] != 'string')return element;
+            })
+            
+            for(let i = 0; i < questionObject.length; i++){
+                if(questionObject[i][1].questionFormat=='DragAndDrop'){
+                    DragAndDropAnswers = questionObject[i][1];
+                    if(!userDragAndDropAnswers){
+                        console.log('lmao noob cant do the drag and drop. NOT ALL ANSWERS SELECTED');
+                    } else if(userDragAndDropAnswers.length!=questionObject[i][1].correctAnswer.length){
+                        console.log('NOT ALL ANSWERS SELECTED');
+                    } else {
+                        console.log(userDragAndDropAnswers)
+                        console.log(questionObject[i][1].correctAnswer)
+                        userDragAndDropAnswers.map((element: string,index: number)=>{
+                            if(userDragAndDropAnswers[index]!=questionObject[i][1].correctAnswer[index]){
+                                DnDpoints='NO POINTS FOR DND'
+                            }
+                            if(index==userDragAndDropAnswers.length-1 && DnDpoints!='NO POINTS FOR DND'){
+                                DnDpoints='++POINTS FOR DND';
+                            }
+                        })
+                        console.log(DnDpoints)
+                    }
+
+                }
+            }
+            
+        }
+
+        selectedAnswersArr.current.map((singleAnsweredQuestion,index: number)=>{
+            if(singleAnsweredQuestion.questionObject.correctAnswer.length!=singleAnsweredQuestion.answeredWord.length){
+                console.log('NOT ALL ANSWERS SELECTED');
+            } else {
+                console.log('ALL ANSWERS WERE SELECTED')
+            }
+        })
+        console.log(selectedAnswersArr.current);
+    }
+
 
     return (
         <div className='lessons-div-fadeInAnim' ref={lessonsDivRef}>
             <div className='single-lesson'>
                 {loadQuestions(arrayIndividualLessons)}
             <div className='single-lesson-buttons'>
-                <button className='lesson-answer-submit'>Submit the answers</button>
+                <button className='lesson-answer-submit' onClick={()=>{checkAnswers()}}>Submit the answers</button>
                 <button className='lesson-go-back' onClick={()=>{returnToMain()}}>Go back</button>
             </div>
             </div>

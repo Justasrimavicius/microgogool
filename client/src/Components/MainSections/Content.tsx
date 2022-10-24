@@ -29,9 +29,11 @@ function Content() {
         if(sectionNum!=-1){
             if(mainPathRef.current!=null){
                 const footer = document.querySelector('footer');
-                if(footer)footer.style.opacity='0';
+                if(footer){
+                    footer.style.opacity='0';
+                    footer.style.visibility='hidden';
+                }
                 mainPathRef.current.style.opacity='0';
-                console.log('bad footer')
                 loadCenterPathContent('specificSection');
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 setTimeout(() => {
@@ -75,13 +77,12 @@ function Content() {
         if(centerPathContent!='specificSection'){
             const footer = document.querySelector('footer');
             if(footer){
-                footer.style.display='block';
+                footer.style.visibility='visible';
                 setTimeout(() => {
                     footer.style.opacity='1';
                 }, 10);
             }
         }
-        console.log(centerPathContent)
     },[centerPathContent])
 
     return (

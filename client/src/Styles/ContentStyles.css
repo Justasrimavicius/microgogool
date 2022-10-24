@@ -414,16 +414,8 @@ main{
     background-color: rgb(255, 231, 95);    
     
 }
-/* <div className='shop-perk'>
-    <div className='shop-perk-upper'>
-        <img src={require(`../../Photos/double-point.png`)} alt='double points icon'></img>
-        <p className='perk-title'>Doubly-pointy</p>
-    </div>
-    <div className='shop-perk-lower'>
-        <p className='perk-description'>Double points - double the points that you get from your next lesson.</p>
-        <button>Buy</button>
-    </div>
-</div> */
+
+
 
 @media (max-width: 600px) {
     .single-question-DragAndDrop-singleWord{
