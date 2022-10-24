@@ -1,5 +1,73 @@
 footer{
     width: 100vw;
     height: 10vh;
-    background-color: black;
+    background-color: rgb(155, 205, 155);
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+footer a{
+    text-decoration: none;
+    color: rgb(107, 117, 75);
+    font-size: 1.2rem;
+
+    transition: 1s all;
+}
+footer a:hover{
+    color: goldenrod;
+}
+/* <footer>
+    <p>Made by <a href='http://jusridev.com'>Justinas</a></p>
+    <a href='https://github.com/Justasrimavicius/microgoogol'>Github</a>
+    <p>Design inspiration from <a href='https://www.duolingo.com/'>Duolingo.com</a></p>
+</footer> */
+.footer-mobile{
+    width: 100vw;
+    height: 10vh;
+    display: none;
+    background-color: rgb(155, 205, 155);
+    /* display:grid is set when media query of max height 460px triggers */
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+}
+.footer-mobile button{
+    margin: 10%;
+    font-size: 1.1rem;
+    height: 80%;
+    width: 90%;
+    margin: 3px 5%;
+    border: none;
+    border-radius: 10px;
+    min-height: 40px;
+    background-color: rgb(224, 255, 213);
+}
+.footer-mobile button:hover{
+    background-color: rgb(173, 213, 175);
+}
+.footer-mobile button:focus{
+    border: 2px solid rgb(92, 122, 92);
+    background-color: rgb(237, 255, 158);
+}
+.footer-mobile img{
+    height: 100%;
+}
+/* <div className='footer-mobile'>
+    <button className='mainPath-tab-btn-footer'>Main path</button>
+    <button className='mistakes-tab-btn-footer'>Your mistakes</button>
+    <button className='shop-tab-btn-footer'>Shop</button>
+</div> */
+
+@media (max-width: 460px) {
+    footer{
+        display: none !important;
+    }
+    .footer-mobile{
+        display: grid;
+        position: fixed;
+        bottom: 0;
+    }
 }

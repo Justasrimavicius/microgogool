@@ -22,6 +22,8 @@ function Content() {
     // mainPath, specificSection, mistakesTab or shopTab
     const [centerPathContent, loadCenterPathContent] = useState<string>('');
 
+    const dailyStreak = useRef<number>(0);
+
     const mainPathRef = useRef<HTMLDivElement>(null);
     useEffect(()=>{
         if(sectionNum!=-1){
@@ -100,9 +102,44 @@ function Content() {
             {centerPathContent=='specificSection' ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadCenterPathContent}}/> : null}
             {centerPathContent=='mistakesTab' ? <MistakesTab /> : null}
             {centerPathContent=='shopTab' ? <ShopTab /> : null}
+            {centerPathContent!='specificSection' ? 
             <div className='main-right'>
+                <div className='main-right-score'>
+                    <img src={require('../../Photos/world.png')}></img>
+                    <p className='main-right-score-title'>Unlock your score</p>
+                    <p>Finish at least 1 lesson to see your score!</p>
+                </div>
+                <div className='main-right-daily-streak'>
+                    <p className='main-right-streak-title'>Your daily streak: {dailyStreak.current}</p>
+                    <p>Compete with your friends! Who can maintain a larger daily streak?</p>
+                </div>
+            </div> : null}
+            {centerPathContent!='specificSection' ? <div className='footer-mobile'>
+            {/* {centerPathContent!='specificSection' ? <nav className='main-left-nav'>
+                {centerPathContent=='mainPath' ? 
+                <button className='mainPath-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('mainPath')}}>Main path</button> : 
+                <button className='mainPath-tab-btn' onClick={()=>{loadCenterPathContent('mainPath')}}>Main path</button>}
+                {centerPathContent=='mistakesTab' ?
+                <button className='mistakes-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('mistakesTab')}}>Your mistakes</button> :
+                <button className='mistakes-tab-btn' onClick={()=>{loadCenterPathContent('mistakesTab')}}>Your mistakes</button>}
+                {centerPathContent=='shopTab' ? 
+                <button className='shop-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button> :
+                <button className='shop-tab-btn' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button>
+                }
+            </nav> : null} */}
+            {centerPathContent=='mainPath' ?
+            <button className='tab-btn-selected' onClick={()=>{loadCenterPathContent('mainPath')}}><img src={require('../../Photos/mainPathIcon.png')}></img></button> :
+            <button onClick={()=>{loadCenterPathContent('mainPath')}}><img src={require('../../Photos/mainPathIcon.png')}></img></button>}
 
-            </div>
+            {centerPathContent=='mistakesTab' ?
+            <button className='tab-btn-selected' onClick={()=>{loadCenterPathContent('mistakesTab')}}><img src={require('../../Photos/mistakesIcon.png')}></img></button> :
+            <button onClick={()=>{loadCenterPathContent('mistakesTab')}}><img src={require('../../Photos/mistakesIcon.png')}></img></button>}
+
+            {centerPathContent=='shopTab' ?
+            <button className='tab-btn-selected' onClick={()=>{loadCenterPathContent('shopTab')}}><img src={require('../../Photos/shopIcon.png')}></img></button> :
+            <button onClick={()=>{loadCenterPathContent('shopTab')}}><img src={require('../../Photos/shopIcon.png')}></img></button>}
+
+        </div> : null}
         </main>
     );
 }

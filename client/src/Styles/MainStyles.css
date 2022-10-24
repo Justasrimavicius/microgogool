@@ -16,6 +16,6 @@ button:focus{
 }
 .divider{
     width: 100%;
-    height: 3px;
+    min-height: 3px;
     background-color: black;
 }

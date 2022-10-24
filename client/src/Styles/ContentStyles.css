@@ -24,6 +24,7 @@ main{
     width: 100%;
     height: 100%;
 
+    grid-column: 2/3;
     transition: 0.6s all;
 }
 .section-name-div{
@@ -41,7 +42,7 @@ main{
 }
 .section-name-div button{
     margin-right: 10px;
-    min-width: 20%;
+    min-width: 25%;
     background-color: #fff000;
     border: 3px solid rgb(52, 68, 52);
     border-bottom: 5px solid rgb(52, 68, 52);
@@ -217,29 +218,76 @@ main{
 }
 .main-left-nav{
     margin-top: 50px;
+    position: fixed;
+    width: 22.5vw;
 }
 .main-left-nav button{
-    width: 80%;
-    margin: 3px 10%;
+    width: 90%;
+    margin: 3px 5%;
     font-size: 1rem;
     border: none;
     border-radius: 10px;
-    height: 40px;
+    min-height: 40px;
+    background-color: rgb(224, 255, 213);
 }
 .main-left-nav button:hover{
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(173, 213, 175);
 }
 .main-left-nav button:focus{
-    border: none;
     border: 2px solid rgb(92, 122, 92);
     background-color: rgb(237, 255, 158);
 }
+.main-right{
+    position: fixed;
+    right: 5vw;
+    width: 22.5vw;
+    grid-column: 3/4;
+    height: 55vh;
+    display: grid;
+   grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 6vh 0px;
+    gap: 10px;
+}
+.main-right-score,
+.main-right-daily-streak{
+    margin: 0px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(224, 255, 213);
+    border-radius: 10px;
+    border: 2px solid gray;
+    padding-top: 10px;
+}
+.main-right-score img{
+    margin-top: 5px;
+    width: 60%;
+}
+.main-right p{
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 10px 5px;
+}
+.main-right-score-title{
+    font-weight: bold;
+    width: 100%;
+    border: 1px solid black;
+    margin-bottom: 0 !important;
+}
+
+.main-right-streak-title{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
 .tab-btn-selected{
-    border: 2px solid rgb(92, 122, 92);
-    background-color: rgb(237, 255, 158);
+    border: 2px solid rgb(92, 122, 92) !important;
+    background-color: rgb(237, 255, 158) !important;
 }
 .tab-btn-selected:hover{
-    background-color: rgb(242, 255, 0) !important;
+    background-color: rgb(237, 255, 158) !important;
 }
 
 
@@ -253,9 +301,11 @@ main{
 
 .mistakes-tab{
     min-height: 100vh;
+    grid-column: 2/3;
 }
 .shop-tab{
     min-height: 100vh;
+    grid-column: 2/3;
 }
 
 
@@ -268,4 +318,24 @@ main{
         margin: 0 5%;
         height: 50px;
     }
-  }
+}
+@media (max-width: 675px) {
+    .main-right{
+        display: none;
+    }
+    .main-path,
+    .mistakes-tab,
+    .shop-tab{
+        grid-column: 2/4;
+    }
+}
+@media (max-width: 460px) {
+    .main-left-nav{
+        display: none;
+    }
+    .main-path,
+    .mistakes-tab,
+    .shop-tab{
+        grid-column: 1/4;
+    }
+}
