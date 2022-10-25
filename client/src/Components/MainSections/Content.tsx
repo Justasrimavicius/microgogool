@@ -20,11 +20,20 @@ function Content() {
     const [stateForMainPathFade, setStateForMainPathFade] = useState<boolean>(false);
 
     // mainPath, specificSection, mistakesTab or shopTab
+    
     const [centerPathContent, loadCenterPathContent] = useState<string>('');
+
+    const [errorMessage, setErrorMessage] = useState<any>('');
+
 
     const dailyStreak = useRef<number>(0);
 
     const mainPathRef = useRef<HTMLDivElement>(null);
+
+    useEffect(()=>{
+        console.log(errorMessage)
+    },[errorMessage])
+
     useEffect(()=>{
         if(sectionNum!=-1){
             if(mainPathRef.current!=null){
@@ -87,6 +96,7 @@ function Content() {
 
     return (
         <main>
+            {errorMessage}
             {centerPathContent!='specificSection' ? <nav className='main-left-nav'>
                 {centerPathContent=='mainPath' ? 
                 <button className='mainPath-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('mainPath')}}>Main path</button> : 
@@ -100,7 +110,7 @@ function Content() {
                 }
             </nav> : null}
             {(centerPathContent=='mainPath' && stateForMainPathFade==true) ? <MainPath sectionLessons={{sectionNum, setSectionNum}} refs={{mainPathRef}} allSectionsDataState={{allSectionsData, setAllSectionsData}}/> : null}
-            {centerPathContent=='specificSection' ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadCenterPathContent}}/> : null}
+            {centerPathContent=='specificSection' ? <SectionLessons sectionNum={sectionNum} specificSectionsData={specificSectionsData} goBack={{loadCenterPathContent}} errorMessage={{setErrorMessage}}/> : null}
             {centerPathContent=='mistakesTab' ? <MistakesTab /> : null}
             {centerPathContent=='shopTab' ? <ShopTab /> : null}
             {centerPathContent!='specificSection' ? 
