@@ -91,10 +91,7 @@ function LoadQuestions(props: any): React.ReactElement | null{
 
             // if more than max answers are selected(elements pushed in array), removed the first added element from array and remove its class
             if(answersSelectedSO.current.length>possibleAnswersNum){
-                console.log(answersSelectedSO.current)
-                console.log(possibleAnswersNum)
                 const removedElement = answersSelectedSO.current.shift();
-                console.log(removedElement)
                 if(removedElement==null)return;
                 removedElement.classList.remove('singlePossibleAnswer-selected');
             }
@@ -105,7 +102,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
             }
             if(selectedAnswersArr.current.length==0){
                 selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo];
-                console.log(selectedAnswersArr)
             } else{
                 for(let index = 0; index < selectedAnswersArr.current.length; index++){
                     if(selectedAnswersArr.current[index].questionTitle==clickedButtonInfo.questionTitle){
@@ -196,7 +192,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
             }
             if(selectedAnswersArr.current.length==0){
                 selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo];
-                console.log(selectedAnswersArr.current)
             } else{
                 for(let index = 0; index < selectedAnswersArr.current.length; index++){
                     if(selectedAnswersArr.current[index].questionTitle==clickedButtonInfo.questionTitle){
@@ -210,8 +205,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
                     } else if(index==selectedAnswersArr.current.length-1){
                         selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo]
                     }
-                    console.log(selectedAnswersArr.current)
-
                 }
             }
         }
@@ -280,71 +273,85 @@ function LoadQuestions(props: any): React.ReactElement | null{
     }
 
     function checkAnswers(){
+        const badAnswersArr: object[] = [];
+        const goodAnswersArr: object[] = [];
+
         // firstly check DragAndDrop question if it exists
         if(document.querySelector('.single-question-DragAndDrop-location')){
-            console.log('good')
-            let DragAndDropAnswers;
+            let DragAndDropAnswers: any;
             let userDragAndDropAnswers: any = [];
-            let DnDpoints: string = '';
+            let pointsForDnD: boolean = true;
             document.querySelectorAll('.single-question-DragAndDrop-location .single-question-DragAndDrop-singleWord').forEach((element: any)=>{
                 userDragAndDropAnswers.push(element.innerText)
             });
-            console.log(userDragAndDropAnswers)
             const questionObject: any = Object.entries(props.props.arrayIndividualLessons).filter((element: any)=>{
                 if(typeof element[1][1] != 'string')return element;
             })
-            console.log(questionObject)
-            
             for(let i = 0; i < questionObject.length; i++){
                 if(questionObject[i][1][1].questionFormat=='DragAndDrop'){
-                    console.log('nice')
                     DragAndDropAnswers = questionObject[i][1];
                     if(!userDragAndDropAnswers){
 
                     } else if(userDragAndDropAnswers.length!=questionObject[i][1][1].correctAnswer.length){
                         props.handleError.setErrorMessage('You must answer all of the questions.')
-                        console.log('x')
                         return;
                     } else {
                         userDragAndDropAnswers.map((element: string,index: number)=>{
                             if(userDragAndDropAnswers[index]!=questionObject[i][1][1].correctAnswer[index]){
-                                DnDpoints='NO POINTS FOR DND'
+                                pointsForDnD=false;
                             }
-                            if(index==userDragAndDropAnswers.length-1 && DnDpoints!='NO POINTS FOR DND'){
-                                DnDpoints='++POINTS FOR DND';
+                            if(index==userDragAndDropAnswers.length-1 && pointsForDnD!=false){
+                                pointsForDnD=true;
+                                goodAnswersArr.push(DragAndDropAnswers[1])
+                            } else if(index == userDragAndDropAnswers.length-1 && pointsForDnD==false){
+                                badAnswersArr.push(DragAndDropAnswers[1])
                             }
                         })
                     }
 
                 }
             }
+            // if(goodAnswersArr.includes()){
             
         }
         // DnD - DragAndDrop
         const non_DnD_Questions: any = Object.entries(props.props.arrayIndividualLessons).filter((element: any)=>{
-            console.log(element)
             if(typeof element[1][1] != 'string' && element[1][1].questionFormat!='DragAndDrop')return element;
         })
-        console.log(non_DnD_Questions)
         if(selectedAnswersArr.current.length<non_DnD_Questions.length){
-            console.log(selectedAnswersArr.current)
-            console.log(non_DnD_Questions)
             props.handleError.setErrorMessage('You must answer all of the questions.')
-            console.log('x')
             return;
         }
-        console.log(selectedAnswersArr.current);
-        let areAnswersGood = true;
         selectedAnswersArr.current.map((singleAnsweredQuestion: any,index: number)=>{
             if(singleAnsweredQuestion.questionObject.correctAnswer.length!=singleAnsweredQuestion.answeredWord.length){
                 props.handleError.setErrorMessage('You have skipped an answer inside a question.')
-                areAnswersGood = false;
                 return;
 
             } else {
                 if(index==selectedAnswersArr.current.length-1){
+
                     // CALCULATE THE CORRECT ANSWERS HERE
                     console.log('answers were selected. Calculating your score for this lesson...')
+                    selectedAnswersArr.current.map((element)=>{
+                        let isAnswerGood = true;
+                        element.answeredWord.map((x,index)=>{
+                            if(!element.questionObject.correctAnswer.includes(x)){
+                                isAnswerGood = false;
+                            }
+                            if(index==element.answeredWord.length-1){
+                                if(isAnswerGood==true){
+                                    goodAnswersArr.push(element)
+                                } else {
+                                    badAnswersArr.push(element);
+                                }
+                            }
+                        })
+                    })
+                    // console.log(badAnswersArr);
+                    // console.log(goodAnswersArr);
+                    console.log('percentage of answers that were correct: ' + (goodAnswersArr.length/badAnswersArr.length * 100).toString().slice(0,5) + '%')
+
+                    return;
                 }
             }
         })
