@@ -38,7 +38,7 @@ function Login(props: any){
                 <label htmlFor='password'>Password:</label>
                 <input id='password' name='password' type='password'></input>
             </div>
-            <p className='auth-component-errorMsg'>{authErrorMsg}</p>
+            <p className='auth-component-errorMsg'>{authErrorMsg.slice(1,authErrorMsg.length-1)}</p>
             <button className='button'>Log in</button>
             <button className='auth-goBack-btn' type='button' onClick={()=>{props.authState.setAuthButton('default')}}>Go back</button>
         </form>

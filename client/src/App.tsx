@@ -11,6 +11,7 @@ import './Styles/ContentStyles.css';
 import './Styles/AuthenticationStyles.css';
 import './Styles/LoadingScreenStyles.css';
 import './Styles/MainStyles.css';
+import './Styles/LessonOverviewStyles.css';
 
 import { useEffect, useState } from "react";
 import React from "react";

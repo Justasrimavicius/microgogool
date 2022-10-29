@@ -1,0 +1,121 @@
+.lesson-overview{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+
+    overflow: scroll;
+}
+.lesson-overview p{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.lesson-overview-title{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+.lesson-overview-results{
+    overflow: scroll;
+    background-color: darkseagreen;
+    box-shadow: 0px 20px 20px 0px #00000073;
+    border-radius: 10px;
+}
+.single-badAnswer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7ffe2;
+    margin: 10px 0px;
+    box-shadow: 0px 0px 15px 0px #00000070;
+}
+.badAnswer-title{
+    color: darkslategray;
+    font-weight: bold;
+    margin: 10px;
+}
+.answers{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    background-color: rgb(185, 244, 185);
+    color: black;
+    min-width: 50%;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 0 30px 10px 30px;
+    margin-bottom: 10px;
+}
+.answers p{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.tca{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    color: rgb(99, 131, 99);
+    font-weight: bold;
+}
+.percentage{
+    color: #5c7b5c;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.wrongQ{
+    font-style: italic;
+    color: #3c513c;
+}
+.wys{
+    border-right: 1px solid black;
+    margin: 0 !important;
+    padding: 16px;
+    color: rgb(99, 131, 99);
+    font-weight: bold;
+}
+.single-badAnswer-userAnsweredWords{
+    color: #a41515;
+    background-color: rgba(255, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid black;
+
+}
+.single-badAnswer-correctWords{
+    color: #46a046;
+    background-color: rgba(0, 128, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+}
+.lesson-overview-backBtn{
+    background-color: rgba(195, 255, 0, 0.301);
+    border: 2px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.lesson-overview-backBtn:focus{
+    border: 2px solid black;
+}
+.lesson-overview-backBtn:hover{
+    transform: scale(1.01);
+}
+.maxScore{
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}

@@ -72,7 +72,7 @@ exports.sectionsData = (req,res,next)=>{
                 lesson3Question:
                 {
                     questionFormat: 'SelectOne',
-                    title: 'Which of the given senteces would you be most likely to say in a job interview?',
+                    title: 'Which of the given sentences would you be most likely to say in a job interview?',
                     possibleAnswers: ["Einame į parduotuvę", "Rytoj iškepsiu vaflių", "Darbo patirties turiu begalę", "Tomas vakar padarė avariją"],
                     correctAnswer: ["Darbo patirties turiu begalę"]
                 },
@@ -88,7 +88,7 @@ exports.sectionsData = (req,res,next)=>{
                 lesson5Question:
                 {
                     questionFormat: 'SelectOne',
-                    title: 'Which lithuanian sentece is the translation of this english sentence: "I took my dog to the vet yesterday, and he gave me some bad news"',
+                    title: 'Which lithuanian sentence is the translation of this english sentence: "I took my dog to the vet yesterday, and he gave me some bad news"',
                     possibleAnswers: ["Vakar su šuniu buvau pas veterinarą, kuris pranešė blogą naujieną", "Užvakar su kambarioku iškepėme picą, kuri nebuvo labai skani", "Trečdalis žmonių žemėje turbūt nežino, kaip veikia programavimas"],
                     correctAnswer: ["Vakar su šuniu buvau pas veterinarą, kuris pranešė blogą naujieną"],
                 }
@@ -102,10 +102,10 @@ exports.sectionsData = (req,res,next)=>{
                 lesson1Title: 'Choose the word order',
                 lesson1Question:
                 {
-                    questionFormat: 'DragAndDropSentence',
-                    title: 'Translate this english sentence to lithuanian: "Even though math is hard, i like it',
+                    questionFormat: 'DragAndDrop',
+                    title: 'Translate this english sentence to lithuanian: "Even though math is hard, i like it"',
                     possibleAnswers: ["ir", "yra", "matematika", "Nors", "ji", "man", "patinka", "sunki,"],
-                    correctAnswer: ['Nors ir matematika yra sunki, man ji patinka'],
+                    correctAnswer: ['Nors', 'ir', 'matematika', 'yra', 'sunki,', 'man', 'ji', 'patinka'],
                 },
                 lesson2Title: 'Find sentences translation',
                 lesson2Question:
@@ -134,10 +134,10 @@ exports.sectionsData = (req,res,next)=>{
                 lesson5Title: 'Select the correct verb',
                 lesson5Question:
                 {
-                    questionFormat: 'DragAndDrop',
-                    title: 'You are given 5 words: "plaukti", "kambarys", "upė", "pavarų dėžė" and "klaustukas". Sort their english translations in correct order.',
-                    possibleAnswers: ["river", "gearbox", "question mark", "swim", "room"],
-                    correctAnswer: ["swim", "room", "river", "gearbox", "question mark"],
+                    questionFormat: 'SelectMultiple',
+                    title: 'You are given 5 sentences: "pilki pingvinai", "tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "jau metas keisti padangas" and "pirma dedame pomidorus, tada alyvuoges". Which 3 sentences you most likely would not say in a car dealership?',
+                    possibleAnswers: ["pilki pingvinai", "tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "jau metas keisti padangas", "pirma dedame pomidorus, tada alyvuoges"],
+                    correctAnswer: ["pilki pingvinai", "Ispanijoje buvo geriau", "pirma dedame pomidorus, tada alyvuoges"],
                 }
             }
         }

@@ -1,5 +1,6 @@
 import { type } from 'os';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import LessonOverview from '../ContentSecComponents/LessonOverview';
 
 interface questionInfoObj{
     correctAnswer: string[],
@@ -13,6 +14,9 @@ interface selectedAnswersArrInterface{
     questionObject: any
 }
 function LoadQuestions(props: any): React.ReactElement | null{
+
+    const [lessonOverview, setLessonOverview] = useState<object | null>(null);
+
     const questionCounterRef: {current: number} = {
         current: -1
     };
@@ -27,7 +31,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
         }
     },[props.handleError.errorHandling])
 
-
     function MainCall(): React.ReactElement | undefined{
     if(!props.props.arrayIndividualLessons[questionCounterRef.current]){
         if(questionCounterRef.current>=props.props.arrayIndividualLessons.length)return;
@@ -36,11 +39,13 @@ function LoadQuestions(props: any): React.ReactElement | null{
             return MainCall();
         }
     } else {
+
         // still elements left in the array
         if(props.props.arrayIndividualLessons[questionCounterRef.current][1].title){
             // the element (props.props.arrayIndividualLessons[questionsCounterRef.current][1]) is question element - its second array elements contains info about questions
             lessonNumber = props.props.arrayIndividualLessons[questionCounterRef.current][0].slice(6,7);
             if(props.props.arrayIndividualLessons[questionCounterRef.current][1].questionFormat=='SelectOne'){
+
                 return LoadQuestion_SelectOne(props.props.arrayIndividualLessons[questionCounterRef.current][1]);
             }
             if(props.props.arrayIndividualLessons[questionCounterRef.current][1].questionFormat=='SelectMultiple'){
@@ -293,6 +298,10 @@ function LoadQuestions(props: any): React.ReactElement | null{
                     if(!userDragAndDropAnswers){
 
                     } else if(userDragAndDropAnswers.length!=questionObject[i][1][1].correctAnswer.length){
+                        console.log('mm')
+                        console.log(userDragAndDropAnswers)
+                        console.log(questionObject[i][1][1].correctAnswer)
+
                         props.handleError.setErrorMessage('You must answer all of the questions.')
                         return;
                     } else {
@@ -319,6 +328,7 @@ function LoadQuestions(props: any): React.ReactElement | null{
             if(typeof element[1][1] != 'string' && element[1][1].questionFormat!='DragAndDrop')return element;
         })
         if(selectedAnswersArr.current.length<non_DnD_Questions.length){
+            console.log('dat')
             props.handleError.setErrorMessage('You must answer all of the questions.')
             return;
         }
@@ -347,9 +357,14 @@ function LoadQuestions(props: any): React.ReactElement | null{
                             }
                         })
                     })
-                    // console.log(badAnswersArr);
-                    // console.log(goodAnswersArr);
-                    console.log('percentage of answers that were correct: ' + (goodAnswersArr.length/badAnswersArr.length * 100).toString().slice(0,5) + '%')
+                    let percentageCorrect;
+                    if(goodAnswersArr.length!=0){
+                        percentageCorrect=(goodAnswersArr.length/(goodAnswersArr.length+badAnswersArr.length))*100;
+                    } else {
+                        percentageCorrect=0;
+                    }
+                    console.log('percentage of answers that were correct: ' + `${percentageCorrect}%`);
+                    setLessonOverview({badAnswersArr, goodAnswersArr})
 
                     return;
                 }
@@ -360,6 +375,7 @@ function LoadQuestions(props: any): React.ReactElement | null{
     return(
         <React.Fragment>
         {MainCall()}
+        {lessonOverview ? <LessonOverview lessonData={{lessonOverview, setLessonOverview}} returnToMain={props.returnToMain}/> : null}
         </React.Fragment>
     )
 }

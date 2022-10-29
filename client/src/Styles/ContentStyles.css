@@ -165,12 +165,13 @@ main{
 }
 .single-question-DragAndDrop-location{
     width: 70%;
-    height: 70px;
+    min-height: 70px;
     padding: 10px 10px;
     background: #b8b8b8;
     border-radius: 15px;
     display: flex;
-    box-shadow: 0 0 4px 0 black
+    box-shadow: 0 0 4px 0 black;
+    overflow: scroll;
 }
 .single-question-possibleAnswers-singleAnswer,
 .single-question-DragAndDrop-singleWord{
