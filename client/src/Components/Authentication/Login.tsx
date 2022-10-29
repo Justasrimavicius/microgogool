@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 
-import MyContext from 'src/context';
+import UIDContext from 'src/UIDContext';
 
 function Login(props: any){
     
     const [authErrorMsg, setAuthErrorMsg] = useState('');
 
-    const { UID, setUID } = useContext(MyContext);
+    const { UID, setUID } = useContext(UIDContext);
     function submitForm(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         let xhr = new XMLHttpRequest();

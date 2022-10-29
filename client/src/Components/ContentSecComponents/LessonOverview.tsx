@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import UIDContext from 'src/UIDContext';
 const key = require('key-creator');
 
 interface props{
-    lessonData: any
-    returnToMain: any
+    lessonData: any,
+    returnToMain: any,
+    sectionNumber: number
 }
 interface singleSelectBadAnswer{
     questionTitle: string,
@@ -28,8 +30,22 @@ interface anyBadAnswer extends singleSelectBadAnswer, singleDnDBadAnswer {}
 
 function LessonOverview(props: props) {
 
+    const { UID, setUID } = useContext(UIDContext);
+
     useEffect(()=>{
-        console.log(props.lessonData.lessonOverview);
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:8080/saveFinishedLessonData', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            badAnswersArr: props.lessonData.lessonOverview.badAnswersArr,
+            goodAnswersArr: props.lessonData.lessonOverview.goodAnswersArr,
+            sectionNumber: props.sectionNumber,
+            UID: UID,
+        }));
+
+        xhr.onload = ()=>{
+            const parsedResponse = JSON.parse(xhr.responseText);
+        }
     },[])
 
     return (
@@ -43,7 +59,6 @@ function LessonOverview(props: props) {
                 {props.lessonData.lessonOverview.badAnswersArr.map((badAnswer: anyBadAnswer, index: number)=>{
                     if(badAnswer.hasOwnProperty('questionObject') && (badAnswer.questionObject.questionFormat == 'SelectOne' || badAnswer.questionObject.questionFormat == 'SelectMultiple')){
                         // singleSelectBadAnswer type
-                        console.log('SELECT')
                         return(
                             <div className='single-badAnswer' key={key.generate()}>
                                 <p className='badAnswer-title'>{badAnswer.questionTitle}</p>
@@ -69,8 +84,6 @@ function LessonOverview(props: props) {
                         )
                     } else if(badAnswer.questionFormat=='DragAndDrop'){
                         // singleDnDBadAnswer type
-                        console.log('DND');
-                        console.log(badAnswer)
                         return(
                             <div className='single-badAnswer' key={parseFloat(badAnswer.title)}>
                                 <p className='badAnswer-title'>{badAnswer.title}</p>

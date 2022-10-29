@@ -1,3 +1,6 @@
+const { doc, setDoc, getFirestore } = require("firebase/firestore"); 
+const {app} = require('./authController');
+
 exports.sectionsData = (req,res,next)=>{
         const mainSection = [
         {
@@ -144,4 +147,20 @@ exports.sectionsData = (req,res,next)=>{
     ]
     res.json(mainSection);
 
+}
+exports.saveFinishedLessonData = async(req,res,next)=>{
+    const badDnDAnswers = req.body.badAnswersArr.filter(singleBadAnswer => singleBadAnswer.questionFormat=='DragAndDrop');
+    const badSelectAnswers = req.body.badAnswersArr.filter(singleBadAnswer => typeof singleBadAnswer.questionTitle == 'string');
+    const UID = req.body.UID;
+    const goodAnswers = req.body.goodAnswersArr;
+    const sectionNumber = `section${req.body.sectionNumber}`;
+
+    const db = getFirestore(app);
+await setDoc(doc(db, "users", `${UID}`), {
+    [`${sectionNumber}`]:{
+        badDnDAnswers,
+        badSelectAnswers,
+        goodAnswers
+    }
+},{merge: true});
 }

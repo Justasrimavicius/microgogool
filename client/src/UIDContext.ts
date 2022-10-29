@@ -7,6 +7,6 @@ interface context{
 const UID = '0';
 const setUID = function(){return 0};
 
-const MyContext = React.createContext<context>({UID,setUID});
+const UIDContext = React.createContext<context>({UID,setUID});
 
-export default MyContext;
+export default UIDContext;

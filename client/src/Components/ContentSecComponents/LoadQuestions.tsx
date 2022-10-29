@@ -298,10 +298,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
                     if(!userDragAndDropAnswers){
 
                     } else if(userDragAndDropAnswers.length!=questionObject[i][1][1].correctAnswer.length){
-                        console.log('mm')
-                        console.log(userDragAndDropAnswers)
-                        console.log(questionObject[i][1][1].correctAnswer)
-
                         props.handleError.setErrorMessage('You must answer all of the questions.')
                         return;
                     } else {
@@ -328,7 +324,6 @@ function LoadQuestions(props: any): React.ReactElement | null{
             if(typeof element[1][1] != 'string' && element[1][1].questionFormat!='DragAndDrop')return element;
         })
         if(selectedAnswersArr.current.length<non_DnD_Questions.length){
-            console.log('dat')
             props.handleError.setErrorMessage('You must answer all of the questions.')
             return;
         }
@@ -375,7 +370,7 @@ function LoadQuestions(props: any): React.ReactElement | null{
     return(
         <React.Fragment>
         {MainCall()}
-        {lessonOverview ? <LessonOverview lessonData={{lessonOverview, setLessonOverview}} returnToMain={props.returnToMain}/> : null}
+        {lessonOverview ? <LessonOverview lessonData={{lessonOverview, setLessonOverview}} sectionNumber={props.sectionNumber} returnToMain={props.returnToMain}/> : null}
         </React.Fragment>
     )
 }

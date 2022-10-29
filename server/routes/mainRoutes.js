@@ -8,6 +8,7 @@ const authController = require('../controllers/authController');
 const dataController = require('../controllers/dataController');
 router.post('/signup',authController.signup);
 router.post('/login', authController.login);
+router.post('/saveFinishedLessonData',dataController.saveFinishedLessonData);
 router.get('/sectionsData',dataController.sectionsData);
 
 module.exports = router;

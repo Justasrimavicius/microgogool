@@ -15,7 +15,7 @@ import './Styles/LessonOverviewStyles.css';
 
 import { useEffect, useState } from "react";
 import React from "react";
-import MyContext from 'src/context';
+import UIDContext from 'src/UIDContext';
 
 function App() {
   
@@ -35,7 +35,7 @@ function App() {
   },[UID])
 
   return (
-        <MyContext.Provider value={{UID,setUID}} >
+        <UIDContext.Provider value={{UID,setUID}} >
         <div className="App">
             {loadingScreen ? <LoadingScreen /> : null}
             {
@@ -49,7 +49,7 @@ function App() {
             </>
             }
         </div>
-        </MyContext.Provider>
+        </UIDContext.Provider>
 
   );
 }

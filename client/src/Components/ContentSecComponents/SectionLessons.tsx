@@ -22,6 +22,7 @@ interface props{
 
 function SectionLessons(props: props) {
 
+
     const lessonsDivRef = useRef<HTMLDivElement>(null);
 
     const [arrayIndividualLessons, setArrayIndividualLessons] = useState<any>(Object.entries(props.specificSectionsData.individualLessons));
@@ -40,7 +41,6 @@ function SectionLessons(props: props) {
                 }, 2000);
             }   
         }, 100);
-        console.log(props)
 
     },[]);
 
@@ -61,13 +61,13 @@ function SectionLessons(props: props) {
             props.goBack.loadCenterPathContent('mainPath');
         }, 1000);
     }
-
+    
     return (
         <React.Fragment>
             <div className='lessons-div-fadeInAnim' ref={lessonsDivRef}>
                 {errorMessage!='' ? <ErrorComponent message={errorMessage} /> : null}
                 <div className='single-lesson'>
-                <LoadQuestions props={{arrayIndividualLessons}} handleError={{setErrorMessage, startErrorHandling, errorHandling}} returnToMain={returnToMain}/>
+                <LoadQuestions props={{arrayIndividualLessons}} sectionNumber={props.specificSectionsData.secNum} handleError={{setErrorMessage, startErrorHandling, errorHandling}} returnToMain={returnToMain}/>
                     <div className='single-lesson-buttons'>
                         <button className='lesson-answer-submit' onClick={()=>{startErrorHandling(true)}}>Submit the answers</button>
                         <button className='lesson-go-back' onClick={()=>{returnToMain()}}>Go back</button>

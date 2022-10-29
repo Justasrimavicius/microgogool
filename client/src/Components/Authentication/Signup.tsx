@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 
-import MyContext from 'src/context';
+import UIDContext from 'src/UIDContext';
 
 function Signup(props: any) {
 
     const [authErrorMsg, setAuthErrorMsg] = useState('');
 
-    const { UID, setUID } = useContext(MyContext);
+    const { UID, setUID } = useContext(UIDContext);
 
     async function checkSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
