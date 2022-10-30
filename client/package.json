@@ -20,7 +20,7 @@
     "jest-preview": "jest-preview",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --watch",
+    "test": "react-scripts test --watch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

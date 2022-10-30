@@ -169,13 +169,14 @@ function LoadQuestions(props: any): React.ReactElement | null{
                 answersSelectedSM.current.map((element,index: number)=>{
                     if(element==selectedElement){
                         answersSelectedSM.current.splice(index,1);
+
                         selectedElement.classList.remove('singlePossibleAnswer-selected');
                     }
                 })
-                selectedAnswersArr.current.map((singleAnsweredQuestion: any,index: number)=>{
+                selectedAnswersArr.current.map((singleAnsweredQuestion: any)=>{
                     if(title==singleAnsweredQuestion.questionTitle){
                         const wordIndex = singleAnsweredQuestion.answeredWord.indexOf(selectedElement.innerText);
-                        singleAnsweredQuestion.answeredWord.splice(wordIndex,1)
+                        singleAnsweredQuestion.answeredWord.splice(wordIndex,1);
                     }
                 })
                 return;
@@ -195,8 +196,9 @@ function LoadQuestions(props: any): React.ReactElement | null{
                 answeredWord: [answersSelectedSM.current[answersSelectedSM.current.length-1].id.split('-')[1]],
                 questionObject: questionInfoObj
             }
+
             if(selectedAnswersArr.current.length==0){
-                selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo];
+                selectedAnswersArr.current.push(clickedButtonInfo);
             } else{
                 for(let index = 0; index < selectedAnswersArr.current.length; index++){
                     if(selectedAnswersArr.current[index].questionTitle==clickedButtonInfo.questionTitle){
@@ -208,7 +210,8 @@ function LoadQuestions(props: any): React.ReactElement | null{
                         }
                         return;
                     } else if(index==selectedAnswersArr.current.length-1){
-                        selectedAnswersArr.current=[...selectedAnswersArr.current, clickedButtonInfo]
+                        selectedAnswersArr.current.push(clickedButtonInfo);
+                        return;
                     }
                 }
             }
@@ -327,11 +330,10 @@ function LoadQuestions(props: any): React.ReactElement | null{
             props.handleError.setErrorMessage('You must answer all of the questions.')
             return;
         }
-        selectedAnswersArr.current.map((singleAnsweredQuestion: any,index: number)=>{
-            if(singleAnsweredQuestion.questionObject.correctAnswer.length!=singleAnsweredQuestion.answeredWord.length){
-                props.handleError.setErrorMessage('You have skipped an answer inside a question.')
+        for(let index = 0; index < selectedAnswersArr.current.length; index++){
+            if(selectedAnswersArr.current[index].questionObject.correctAnswer.length!=selectedAnswersArr.current[index].answeredWord.length){
+                props.handleError.setErrorMessage('You have skipped an answer inside a question.');
                 return;
-
             } else {
                 if(index==selectedAnswersArr.current.length-1){
 
@@ -358,13 +360,13 @@ function LoadQuestions(props: any): React.ReactElement | null{
                     } else {
                         percentageCorrect=0;
                     }
-                    console.log('percentage of answers that were correct: ' + `${percentageCorrect}%`);
                     setLessonOverview({badAnswersArr, goodAnswersArr})
 
                     return;
                 }
             }
-        })
+        }
+
     }
     questionCounterRef.current++;
     return(
