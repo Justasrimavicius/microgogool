@@ -55,12 +55,14 @@
     border-radius: 5px;
     margin: 0 30px 10px 30px;
     margin-bottom: 10px;
+    align-items: center;
 }
 .answers p{
     margin-left: 5px;
     margin-right: 5px;
 }
 .tca{
+    align-self: center;
     grid-column: 2/3;
     grid-row: 1/2;
     color: rgb(99, 131, 99);
@@ -76,11 +78,16 @@
     color: #3c513c;
 }
 .wys{
+    align-self: center;
     border-right: 1px solid black;
-    margin: 0 !important;
-    padding: 16px;
     color: rgb(99, 131, 99);
     font-weight: bold;
+    height: 100%;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .single-badAnswer-userAnsweredWords{
     color: #a41515;
@@ -91,7 +98,6 @@
     align-items: center;
     gap: 10px;
     border-right: 1px solid black;
-
 }
 .single-badAnswer-correctWords{
     color: #46a046;
@@ -101,6 +107,7 @@
     justify-content: space-evenly;
     align-items: center;
     gap: 10px;
+    height: 100%;
 }
 .lesson-overview-backBtn{
     background-color: rgba(195, 255, 0, 0.301);
@@ -119,3 +126,4 @@
     font-size: 2rem;
     font-weight: bold;
 }
+

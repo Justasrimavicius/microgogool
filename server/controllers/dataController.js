@@ -1,4 +1,4 @@
-const { doc, setDoc, getFirestore } = require("firebase/firestore"); 
+const { doc, setDoc, getFirestore, getDoc } = require("firebase/firestore"); 
 const {app} = require('./authController');
 
 exports.sectionsData = (req,res,next)=>{
@@ -156,11 +156,82 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
     const sectionNumber = `section${req.body.sectionNumber}`;
 
     const db = getFirestore(app);
-await setDoc(doc(db, "users", `${UID}`), {
+    await setDoc(doc(db, "users", `${UID}`), {
     [`${sectionNumber}`]:{
         badDnDAnswers,
         badSelectAnswers,
         goodAnswers
     }
 },{merge: true});
+}
+exports.getUserMistakes = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+
+    // interface allUserMistakes{
+    //     sectionNumber: number,
+    //     badSelectAnswers: badSelectAnswersObject[],
+    //     badDnDAnswers: Array<Array<questionObject>>[]
+    // }
+    // interface badSelectAnswersObject{
+    //     questionTitle: string,
+    //     correctAnswer: string[],
+    //     userAnswer: string[]
+    // }
+    function badSelectAnswersObject(questionTitle, correctAnswer, userAnswer){
+        this.questionTitle = questionTitle;
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = userAnswer;
+    }
+    function badDnDAnswersObject(questionTitle, correctAnswer, possibleAnswer){
+        this.questionTitle = questionTitle;
+        this.correctAnswer = correctAnswer;
+        this.possibleAnswer = possibleAnswer;
+    }
+
+    function singleSectionsBadAnswers(badDnDAnswers, badSelectAnswers, sectionNumber){
+        this.badDnDAnswers = badDnDAnswers;
+        this.badSelectAnswers = badSelectAnswers;
+        this.sectionNumber = sectionNumber;
+    }
+
+    if(docSnap.exists()) {
+        const finalArrayToSend = [];
+        Object.entries(docSnap.data()).map(sectionData=>{
+            const badSelectAnswers = [];
+            const badDnDAnswers = [];
+            let sectionNumber = sectionData[0].slice(-1);
+
+            // creating the badSelectAnswers object
+            sectionData[1].badSelectAnswers.map(singleBadSelectAns=>{
+                const questionTitle = singleBadSelectAns.questionTitle;
+                const correctAnswer = singleBadSelectAns.questionObject.correctAnswer;
+                const userAnswer = singleBadSelectAns.answeredWord;
+    
+                const newBadSelectAnswersObject = new badSelectAnswersObject(questionTitle, correctAnswer, userAnswer);
+                badSelectAnswers.push(newBadSelectAnswersObject);
+            })
+
+            // creating the badDnDAnswers object
+            sectionData[1].badDnDAnswers.map(singleBadDnDAns=>{
+                const questionTitle = singleBadDnDAns.title;
+                const correctAnswer = singleBadDnDAns.correctAnswer;
+                const possibleAnswer = singleBadDnDAns.possibleAnswers;
+
+                const newBadDnDAnswersObject = new badDnDAnswersObject(questionTitle, correctAnswer, possibleAnswer);
+                badDnDAnswers.push(newBadDnDAnswersObject);
+            })
+            const sectionsAllBadAnswers = new singleSectionsBadAnswers(badDnDAnswers, badSelectAnswers, sectionNumber);
+            finalArrayToSend.push(sectionsAllBadAnswers);
+
+        })
+        res.json(finalArrayToSend)
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
 }

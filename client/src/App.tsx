@@ -12,6 +12,7 @@ import './Styles/AuthenticationStyles.css';
 import './Styles/LoadingScreenStyles.css';
 import './Styles/MainStyles.css';
 import './Styles/LessonOverviewStyles.css';
+import './Styles/MistakesTabStyles.css';
 
 import { useEffect, useState } from "react";
 import React from "react";

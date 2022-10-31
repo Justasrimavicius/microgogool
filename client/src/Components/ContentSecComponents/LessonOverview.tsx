@@ -43,9 +43,9 @@ function LessonOverview(props: props) {
             UID: UID,
         }));
 
-        xhr.onload = ()=>{
-            const parsedResponse = JSON.parse(xhr.responseText);
-        }
+        // xhr.onload = ()=>{
+        //     const parsedResponse = JSON.parse(xhr.responseText);
+        // }
     },[])
 
     return (
