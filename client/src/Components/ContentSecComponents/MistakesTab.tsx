@@ -23,6 +23,7 @@ interface badDnDAnswersObject{
 function MistakesTab() {
     
     const [allUserMistakes, setAllUserMistakes] = useState<specificSectionsAllMistakes[] | null>(null);
+    const [noMistakes, ShowNoMistakes] = useState<boolean>(false);
 
     const { UID, setUID } = useContext(UIDContext);
 
@@ -41,13 +42,16 @@ function MistakesTab() {
     },[])
 
     useEffect(()=>{
-        console.log(allUserMistakes)
+        console.log(allUserMistakes);
+        if(allUserMistakes?.length==0)ShowNoMistakes(true);
     },[allUserMistakes])
 
     return (
         <div className='mistakes-tab'>
             <img src={require('../../Photos/error.png')} alt='error image'></img>
-            <p>Mistakes you have recently made</p>
+            
+            {noMistakes==true ? <p className='no-mistakes'>You haven't made any mistakes. Very good! Or is it..?</p> : <p>Mistakes you have recently made</p>}
+
             {allUserMistakes!=null ? 
                 <>
                 {/* .map for badDnDAnswers */}

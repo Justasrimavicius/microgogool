@@ -166,22 +166,14 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
 }
 exports.getUserMistakes = async(req,res,next)=>{
     const UID = req.body.UID;
+    console.log(req.body)
 
     const db = getFirestore(app);
 
     const docRef = doc(db, "users", `${UID}`);
     const docSnap = await getDoc(docRef);
 
-    // interface allUserMistakes{
-    //     sectionNumber: number,
-    //     badSelectAnswers: badSelectAnswersObject[],
-    //     badDnDAnswers: Array<Array<questionObject>>[]
-    // }
-    // interface badSelectAnswersObject{
-    //     questionTitle: string,
-    //     correctAnswer: string[],
-    //     userAnswer: string[]
-    // }
+    
     function badSelectAnswersObject(questionTitle, correctAnswer, userAnswer){
         this.questionTitle = questionTitle;
         this.correctAnswer = correctAnswer;
@@ -199,6 +191,8 @@ exports.getUserMistakes = async(req,res,next)=>{
         this.sectionNumber = sectionNumber;
     }
 
+    let doesUserHaveMistakes = false;
+
     if(docSnap.exists()) {
         const finalArrayToSend = [];
         Object.entries(docSnap.data()).map(sectionData=>{
@@ -208,6 +202,8 @@ exports.getUserMistakes = async(req,res,next)=>{
 
             // creating the badSelectAnswers object
             sectionData[1].badSelectAnswers.map(singleBadSelectAns=>{
+                if(sectionData[1].badSelectAnswers.length>0)doesUserHaveMistakes=true;
+
                 const questionTitle = singleBadSelectAns.questionTitle;
                 const correctAnswer = singleBadSelectAns.questionObject.correctAnswer;
                 const userAnswer = singleBadSelectAns.answeredWord;
@@ -218,6 +214,9 @@ exports.getUserMistakes = async(req,res,next)=>{
 
             // creating the badDnDAnswers object
             sectionData[1].badDnDAnswers.map(singleBadDnDAns=>{
+                if(sectionData[1].badDnDAnswers.length>0)doesUserHaveMistakes=true;
+
+
                 const questionTitle = singleBadDnDAns.title;
                 const correctAnswer = singleBadDnDAns.correctAnswer;
                 const possibleAnswer = singleBadDnDAns.possibleAnswers;
@@ -229,9 +228,16 @@ exports.getUserMistakes = async(req,res,next)=>{
             finalArrayToSend.push(sectionsAllBadAnswers);
 
         })
-        res.json(finalArrayToSend)
+        console.log(finalArrayToSend)
+        if(doesUserHaveMistakes==true){
+            res.json(finalArrayToSend)
+        } else {
+            res.json([]);
+        }
+        
     } else {
         // doc.data() will be undefined in this case
+        res.json([])
         console.log("No such document!");
     }
 }

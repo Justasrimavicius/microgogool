@@ -59,8 +59,7 @@
     margin-right: auto;
     padding-right: 6px;
 }
-
-
-@media (max-width: 1050px){
-
+.no-mistakes{
+    font-size: 1.8rem !important;
+    font-weight: bold;
 }
