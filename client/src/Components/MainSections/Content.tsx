@@ -3,7 +3,8 @@ import MainPath from '../ContentSecComponents/MainPath';
 import MistakesTab from '../ContentSecComponents/MistakesTab';
 import ShopTab from '../ContentSecComponents/ShopTab';
 import SectionLessons from '../ContentSecComponents/SectionLessons';
-
+import MainRightScore from '../ContentSecComponents/MainRightScore';
+import MainRightDailyStreak from '../ContentSecComponents/MainRightDailyStreak';
 interface allSectionsData{
     secNum: number,
     secDescr: string,
@@ -115,15 +116,8 @@ function Content() {
             {centerPathContent=='shopTab' ? <ShopTab /> : null}
             {centerPathContent!='specificSection' ? 
             <div className='main-right'>
-                <div className='main-right-score'>
-                    <img src={require('../../Photos/world.png')} alt='world icon'></img>
-                    <p className='main-right-score-title'>Unlock your score</p>
-                    <p>Finish at least 1 lesson to see your score!</p>
-                </div>
-                <div className='main-right-daily-streak'>
-                    <p className='main-right-streak-title'>Your daily streak: {dailyStreak.current}</p>
-                    <p>Compete with your friends! Who can maintain a larger daily streak?</p>
-                </div>
+                <MainRightScore />
+                <MainRightDailyStreak />
             </div> : null}
             {centerPathContent!='specificSection' ? <div className='footer-mobile'>
             {centerPathContent=='mainPath' ?

@@ -166,7 +166,6 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
 }
 exports.getUserMistakes = async(req,res,next)=>{
     const UID = req.body.UID;
-    console.log(req.body)
 
     const db = getFirestore(app);
 
@@ -184,7 +183,6 @@ exports.getUserMistakes = async(req,res,next)=>{
         this.correctAnswer = correctAnswer;
         this.possibleAnswer = possibleAnswer;
     }
-
     function singleSectionsBadAnswers(badDnDAnswers, badSelectAnswers, sectionNumber){
         this.badDnDAnswers = badDnDAnswers;
         this.badSelectAnswers = badSelectAnswers;
@@ -235,6 +233,34 @@ exports.getUserMistakes = async(req,res,next)=>{
             res.json([]);
         }
         
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.getUsersScore = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+
+    if(docSnap.exists()) {
+        const finalArrayToSend = [];
+
+        Object.entries(docSnap.data()).map(sectionData=>{
+            console.log(sectionData);
+
+            const badAnswersQnty = sectionData[1].badSelectAnswers.length+sectionData[1].badDnDAnswers.length;
+            const goodAnswersQnty = sectionData[1].goodAnswers.length;
+            const sectionScore = parseFloat(((goodAnswersQnty/(badAnswersQnty+goodAnswersQnty))*100).toString().slice(0,5));
+            finalArrayToSend.push({badAnswersQnty, goodAnswersQnty, sectionScore});
+
+        })
+        console.log(finalArrayToSend)
+        res.json(finalArrayToSend)
     } else {
         // doc.data() will be undefined in this case
         res.json([])

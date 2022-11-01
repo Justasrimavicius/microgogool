@@ -8,7 +8,8 @@ router.post('/login', authController.login);
 router.post('/saveFinishedLessonData',dataController.saveFinishedLessonData);
 router.get('/sectionsData',dataController.sectionsData);
 
-// this is a POST request only because in order to get user mistakes, the UID is needed, which gets sent in the POST request
+// these are POST requests only because in order to get user mistakes, the UID is needed, which gets sent in the POST request
 router.post('/getUserMistakes',dataController.getUserMistakes);
+router.post('/getUsersScore',dataController.getUsersScore);
 
 module.exports = router;

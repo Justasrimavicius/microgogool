@@ -274,6 +274,7 @@ main{
 .main-right-score-title{
     font-weight: bold;
     width: 100%;
+
     border: 1px solid black;
     margin-bottom: 0 !important;
 }
