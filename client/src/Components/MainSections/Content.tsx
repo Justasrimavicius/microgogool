@@ -16,8 +16,14 @@ interface allSectionsData{
         [key: string]: string
     }
 }
+interface props{
+    centerPathContentProp:{
+        centerPathContent: string,
+        loadCenterPathContent: React.Dispatch<React.SetStateAction<string>>
+    }
+}
 
-function Content() {
+function Content(props: props) {
     const { UID, setUID } = useContext(UIDContext);
 
     const [sectionNum, setSectionNum] = useState<number>(-1); // user chooses section in MainPath to go through the lessons. This useState loads the approriate sections lessons
@@ -26,12 +32,9 @@ function Content() {
     
     const [stateForMainPathFade, setStateForMainPathFade] = useState<boolean>(false);
 
-    // mainPath, specificSection, mistakesTab or shopTab
-    
-    const [centerPathContent, loadCenterPathContent] = useState<string>('');
-
     const [errorMessage, setErrorMessage] = useState<any>('');
 
+    const { centerPathContent, loadCenterPathContent } = props.centerPathContentProp;
 
     const dailyStreak = useRef<number>(0);
 

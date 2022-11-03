@@ -35,3 +35,39 @@ header{
     width: 50px;
     height: auto;
 }
+.userIcon-button{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+.userIcon-button:focus{
+    border: none;
+}
+.UserIconDisplay{
+    position:fixed;
+    background-color: rgb(191, 230, 191);
+    border: 2px solid black;
+    border-radius: 5px;
+    top: 9vh;
+    right: 5vw;
+    width: 300px;
+    height: 200px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+.UserIconDisplay button{
+    width: 90%;
+    margin: 3px 5%;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgb(110, 146, 110);
+    border-radius: 5px;
+}
+.UserIconDisplay p{
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+}   

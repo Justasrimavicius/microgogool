@@ -22,29 +22,26 @@ function App() {
   
   const [UID, setUID] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [loadingScreen, triggerLoadingScreen] = useState(false);
+
+  // mainPath, specificSection, mistakesTab or shopTab
+  const [centerPathContent, loadCenterPathContent] = useState<string>('');
 
   useEffect(()=>{
     if(UID!=''){
       console.log(UID);
-      // triggerLoadingScreen(true);
-      // setTimeout(() => {
-        setAuthenticated(true);
-        // triggerLoadingScreen(false);
-      // }, 2000);
+      setAuthenticated(true);
     }
   },[UID])
 
   return (
         <UIDContext.Provider value={{UID,setUID}} >
         <div className="App">
-            {/* {loadingScreen ? <LoadingScreen /> : null} */}
             {
             !authenticated ? <Authentication props={{setAuthenticated}}/>
             :<>
-            <Header />
+            <Header centerPathContentProp={{centerPathContent, loadCenterPathContent}}/>
 
-            <Content />
+            <Content centerPathContentProp={{centerPathContent, loadCenterPathContent}}/>
 
             <Footer />
             </>
