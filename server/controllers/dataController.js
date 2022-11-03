@@ -1,5 +1,6 @@
 const { doc, setDoc, getFirestore, getDoc } = require("firebase/firestore"); 
 const {app} = require('./authController');
+const { summary } = require('date-streaks')
 
 exports.sectionsData = (req,res,next)=>{
         const mainSection = [
@@ -171,7 +172,7 @@ exports.getUserMistakes = async(req,res,next)=>{
 
     const docRef = doc(db, "users", `${UID}`);
     const docSnap = await getDoc(docRef);
-
+    console.log(docSnap.data())
     
     function badSelectAnswersObject(questionTitle, correctAnswer, userAnswer){
         this.questionTitle = questionTitle;
@@ -193,7 +194,10 @@ exports.getUserMistakes = async(req,res,next)=>{
 
     if(docSnap.exists()) {
         const finalArrayToSend = [];
+        console.log(docSnap.data())
         Object.entries(docSnap.data()).map(sectionData=>{
+            if(!sectionData[1].badSelectAnswers)return;
+
             const badSelectAnswers = [];
             const badDnDAnswers = [];
             let sectionNumber = sectionData[0].slice(-1);
@@ -251,6 +255,7 @@ exports.getUsersScore = async(req,res,next)=>{
         const finalArrayToSend = [];
 
         Object.entries(docSnap.data()).map(sectionData=>{
+            if(!sectionData[1].badSelectAnswers)return;
             console.log(sectionData);
 
             const badAnswersQnty = sectionData[1].badSelectAnswers.length+sectionData[1].badDnDAnswers.length;
@@ -261,6 +266,53 @@ exports.getUsersScore = async(req,res,next)=>{
         })
         console.log(finalArrayToSend)
         res.json(finalArrayToSend)
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.updateDailyStreak = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`, 'loginData','timesWhenLoggedin');
+    const docSnap = await getDoc(docRef);
+
+    console.log()
+    if(docSnap.exists()){
+        const lastDayLoggedIn_InDB = docSnap.data().timesLoggedIn[docSnap.data().timesLoggedIn.length-1]
+
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+        const day = ("0" + date.getDate()).slice(-2);
+        const currentDateFormated = `${year}-${month}-${day}`;
+
+        // if(currentDateFormated!=lastDayLoggedIn_InDB){
+            await setDoc(docRef, {
+                timesLoggedIn: [...docSnap.data().timesLoggedIn, currentDateFormated],
+            },{merge: true});
+        // }
+
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.getDailyStreak = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`, 'loginData','timesWhenLoggedin');
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()){
+        console.log(docSnap.data().timesLoggedIn)
+       res.json(summary(docSnap.data().timesLoggedIn).currentStreak)
+
     } else {
         // doc.data() will be undefined in this case
         res.json([])

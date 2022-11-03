@@ -14,6 +14,7 @@
     align-items: center;
 }
 .authentication > div > p{
+    margin-right: 5px;
     color: azure;
     font-size: 2rem;
     width: 30vw;
@@ -61,8 +62,6 @@
     font-size: 1rem !important;
     color: rgb(0, 0, 0);
 }
-
-
 
 .signup-component,
 .login-component{

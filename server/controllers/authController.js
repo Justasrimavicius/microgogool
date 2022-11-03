@@ -1,5 +1,6 @@
 const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
 const firebase = require("firebase/app");
+const { getFirestore, doc, setDoc } = require('firebase/firestore');
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXhsqjmEbJ4GGDFMjrnyhcPTEAD5WCSIo",
@@ -45,8 +46,25 @@ exports.signup = (req,res,next)=>{
     const localAuth = getAuth(app);
     (function createUser(){
         createUserWithEmailAndPassword(localAuth, email, password)
-    .then((userCredential) => {
+    .then(async(userCredential) => {
         if(userCredential.user){
+            const db = getFirestore(app);
+            const docRefTimeData = doc(db, "users", `${userCredential.user.uid}`,'loginData','timesWhenLoggedin');
+            const mainUserDocRef = doc(db, "users", `${userCredential.user.uid}`);
+
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const day = ("0" + date.getDate()).slice(-2);
+
+            console.log(userCredential.user)
+            await setDoc(mainUserDocRef,{
+                SignupTime: `${year}-${month}-${day}`
+            })
+            await setDoc(docRefTimeData, {
+                timesLoggedIn: [`${year}-${month}-${day}`],
+            },{merge: true});
+
             res.json({UID: userCredential.user.uid});
         }
     })

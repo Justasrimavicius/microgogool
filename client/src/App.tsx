@@ -27,18 +27,18 @@ function App() {
   useEffect(()=>{
     if(UID!=''){
       console.log(UID);
-      triggerLoadingScreen(true);
-      setTimeout(() => {
+      // triggerLoadingScreen(true);
+      // setTimeout(() => {
         setAuthenticated(true);
-        triggerLoadingScreen(false);
-      }, 2000);
+        // triggerLoadingScreen(false);
+      // }, 2000);
     }
   },[UID])
 
   return (
         <UIDContext.Provider value={{UID,setUID}} >
         <div className="App">
-            {loadingScreen ? <LoadingScreen /> : null}
+            {/* {loadingScreen ? <LoadingScreen /> : null} */}
             {
             !authenticated ? <Authentication props={{setAuthenticated}}/>
             :<>

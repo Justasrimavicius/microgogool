@@ -6,8 +6,11 @@ function LoadingScreen() {
 
     useEffect(()=>{
         setTimeout(() => {
-        loadingScreenRef.current.style.opacity='1';
-        }, 10);
+        loadingScreenRef.current.style.opacity='0';
+        setTimeout(() => {
+            loadingScreenRef.current.style.display='none';
+        }, 1000);
+        }, 2000);
     },[])
 
     return (

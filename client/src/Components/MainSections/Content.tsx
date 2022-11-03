@@ -1,10 +1,14 @@
-import React, {useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState } from 'react';
 import MainPath from '../ContentSecComponents/MainPath';
 import MistakesTab from '../ContentSecComponents/MistakesTab';
 import ShopTab from '../ContentSecComponents/ShopTab';
 import SectionLessons from '../ContentSecComponents/SectionLessons';
 import MainRightScore from '../ContentSecComponents/MainRightScore';
 import MainRightDailyStreak from '../ContentSecComponents/MainRightDailyStreak';
+import LoadingScreen from '../LoadingScreen';
+
+import UIDContext from '../../UIDContext';
+
 interface allSectionsData{
     secNum: number,
     secDescr: string,
@@ -14,6 +18,8 @@ interface allSectionsData{
 }
 
 function Content() {
+    const { UID, setUID } = useContext(UIDContext);
+
     const [sectionNum, setSectionNum] = useState<number>(-1); // user chooses section in MainPath to go through the lessons. This useState loads the approriate sections lessons
     const [allSectionsData, setAllSectionsData] = useState<allSectionsData[]>([{secNum: -1, secDescr: '', individualLessons: {}}]);
     const [specificSectionsData, setSpecificSectionsData] = useState<{secNum: number, secDescr: string, individualLessons: {[key: string]: string}}>({secNum: -1, secDescr: '',individualLessons: {'something': 'something else'}});
@@ -32,8 +38,13 @@ function Content() {
     const mainPathRef = useRef<HTMLDivElement>(null);
 
     useEffect(()=>{
-        console.log(errorMessage)
-    },[errorMessage])
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:8080/updateDailyStreak', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            UID: UID
+        }));
+    },[])
 
     useEffect(()=>{
         if(sectionNum!=-1){
@@ -96,6 +107,8 @@ function Content() {
     },[centerPathContent])
 
     return (
+        <>
+        <LoadingScreen />
         <main>
             {errorMessage}
             {centerPathContent!='specificSection' ? <nav className='main-left-nav'>
@@ -134,6 +147,7 @@ function Content() {
 
         </div> : null}
         </main>
+        </>
     );
 }
 

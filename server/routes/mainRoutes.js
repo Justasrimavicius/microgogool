@@ -11,5 +11,7 @@ router.get('/sectionsData',dataController.sectionsData);
 // these are POST requests only because in order to get user mistakes, the UID is needed, which gets sent in the POST request
 router.post('/getUserMistakes',dataController.getUserMistakes);
 router.post('/getUsersScore',dataController.getUsersScore);
+router.post('/updateDailyStreak',dataController.updateDailyStreak);
+router.post('/getDailyStreak',dataController.getDailyStreak);
 
 module.exports = router;

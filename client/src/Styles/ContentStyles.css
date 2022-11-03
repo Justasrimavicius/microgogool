@@ -267,7 +267,11 @@ main{
     width: 60%;
 }
 .main-right p{
-    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
     text-align: center;
     margin: 10px 5px;
 }
@@ -283,7 +287,14 @@ main{
     font-size: 1.3rem;
     font-weight: bold;
 }
-
+.dailyStreakNum{
+    font-size: 2rem !important;
+    background: linear-gradient(to bottom, darkseagreen , green, lightgreen);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 3px;
+}
 .tab-btn-selected{
     border: 2px solid rgb(92, 122, 92) !important;
     background-color: rgb(237, 255, 158) !important;
