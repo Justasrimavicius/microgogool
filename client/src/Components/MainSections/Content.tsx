@@ -86,6 +86,8 @@ function Content(props: props) {
             .then(res=>{
             res.json()
                 .then(finalData=>{
+                    console.log('final data here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                    console.log(finalData);
                 setAllSectionsData(finalData);
                 loadCenterPathContent('mainPath');
                 })

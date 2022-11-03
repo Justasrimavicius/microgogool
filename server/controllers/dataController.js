@@ -290,11 +290,11 @@ exports.updateDailyStreak = async(req,res,next)=>{
         const day = ("0" + date.getDate()).slice(-2);
         const currentDateFormated = `${year}-${month}-${day}`;
 
-        // if(currentDateFormated!=lastDayLoggedIn_InDB){
+        if(currentDateFormated!=lastDayLoggedIn_InDB){
             await setDoc(docRef, {
                 timesLoggedIn: [...docSnap.data().timesLoggedIn, currentDateFormated],
             },{merge: true});
-        // }
+        }
 
     } else {
         // doc.data() will be undefined in this case

@@ -13,15 +13,13 @@ function Header(props: props) {
 
     const [showUserIconDisplay, setShowUserIconDisplay] = useState<boolean>(false);
 
-    let UserIconDisplay_WithOverlay = HOC_Overlay(UserIconDisplay);
+    const UserIconDisplay_WithOverlay = HOC_Overlay(UserIconDisplay);
 
     const {centerPathContent, loadCenterPathContent} = props.centerPathContentProp;
 
     return (
-        <React.Fragment>
         <header>
-            {/* {showUserIconDisplay==true ? <UserIconDisplay_WithOverlay /> : null} */}
-            {showUserIconDisplay==true ? <UserIconDisplay centerPathContentProp={{centerPathContent, loadCenterPathContent}} showUserIconDisplayProp={{setShowUserIconDisplay}}/> : null}
+            {showUserIconDisplay==true ? <UserIconDisplay_WithOverlay centerPathContentProp={{centerPathContent, loadCenterPathContent}} isVisible={setShowUserIconDisplay}/> : null}
             
             <div className='header-content'>
             <p>Microgoogol</p>
@@ -32,7 +30,6 @@ function Header(props: props) {
 
             <div className='divider'></div>
         </header>
-        </React.Fragment>
     );
 }
 

@@ -14,8 +14,6 @@ interface props{
 function UserIconDisplay(props: props) {
     const { UID, setUID } = useContext(UIDContext);
 
-
-
     return (
         <div className='UserIconDisplay'>
             <p>User id: <em>{UID}</em> </p>

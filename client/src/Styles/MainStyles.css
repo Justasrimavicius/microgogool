@@ -54,5 +54,5 @@ button:focus{
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: (0, 0, 0, 0.457);
+    background-color: rgba(0, 0, 0, 0.457);
 }
