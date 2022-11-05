@@ -86,8 +86,6 @@ function Content(props: props) {
             .then(res=>{
             res.json()
                 .then(finalData=>{
-                    console.log('final data here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                    console.log(finalData);
                 setAllSectionsData(finalData);
                 loadCenterPathContent('mainPath');
                 })
@@ -125,7 +123,7 @@ function Content(props: props) {
                 <button className='mistakes-tab-btn' onClick={()=>{loadCenterPathContent('mistakesTab')}}>Your mistakes</button>}
                 {centerPathContent=='shopTab' ? 
                 <button className='shop-tab-btn tab-btn-selected' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button> :
-                <button className='shop-tab-btn' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button>
+                <button className='shop-tab-btn disabled' onClick={()=>{loadCenterPathContent('shopTab')}}>Shop</button>
                 }
             </nav> : null}
             {(centerPathContent=='mainPath' && stateForMainPathFade==true) ? <MainPath sectionLessons={{sectionNum, setSectionNum}} refs={{mainPathRef}} allSectionsDataState={{allSectionsData, setAllSectionsData}}/> : null}

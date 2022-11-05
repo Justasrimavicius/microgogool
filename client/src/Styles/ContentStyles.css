@@ -66,7 +66,8 @@ main{
     background-color:darkseagreen;
     border-radius: 20px;
     border: 3px solid #fff000;
-    width: 250px;
+    min-width: 250px;
+    width: 15vw;
     min-height: 80px;
     box-shadow: 0px 0px 20px 0px gray;
 }
@@ -368,7 +369,9 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
+
 .shop-tab > img{
     margin-top: 20px;
     width: 60%;
@@ -379,6 +382,7 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 .shop-perk{
     display: flex;
@@ -460,5 +464,6 @@ main{
     .mistakes-tab,
     .shop-tab{
         grid-column: 1/4;
+        margin-bottom: 30px;
     }
 }

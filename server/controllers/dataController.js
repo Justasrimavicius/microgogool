@@ -139,9 +139,56 @@ exports.sectionsData = (req,res,next)=>{
                 lesson5Question:
                 {
                     questionFormat: 'SelectMultiple',
-                    title: 'You are given 5 sentences: "pilki pingvinai", "tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "jau metas keisti padangas" and "pirma dedame pomidorus, tada alyvuoges". Which 3 sentences you most likely would not say in a car dealership?',
-                    possibleAnswers: ["pilki pingvinai", "tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "jau metas keisti padangas", "pirma dedame pomidorus, tada alyvuoges"],
+                    title: 'You are given 5 sentences: "Pilki pingvinai", "Tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "Jau metas keisti padangas" and "Pirma dedame pomidorus, tada alyvuoges". Which 3 sentences you most likely would not say in a car dealership?',
+                    possibleAnswers: ["Pilki pingvinai", "Tikiuosi ilgai laukti neteks", "Ispanijoje buvo geriau", "Jau metas keisti padangas", "Pirma dedame pomidorus, tada alyvuoges"],
                     correctAnswer: ["pilki pingvinai", "Ispanijoje buvo geriau", "pirma dedame pomidorus, tada alyvuoges"],
+                }
+            }
+        },
+        {
+            secNum:4,
+            secDescr:'Conversational sentences',
+            individualLessons:
+            {
+                lesson1Title: 'Choose the sentence order',
+                lesson1Question:
+                {
+                    questionFormat: 'DragAndDrop',
+                    title: 'Translate this english sentence to lithuanian and sort the words in correct order: "The weather yesterday was horrible"',
+                    possibleAnswers: ["bjaurus", "buvo", "Vakar", "oras"],
+                    correctAnswer: ['Vakar', 'oras', 'buvo', 'bjaurus'],
+                },
+                lesson2Title: 'Find the translation of a given sentence',
+                lesson2Question:
+                {
+                    questionFormat: 'SelectOne',
+                    title: 'Which english sentence is the translation of this lithuanian sentence: "Vairavimo egzaminą išlaikiau iš trylikto karto"',
+                    possibleAnswers: ["I passed my driving exam in my thirteenth time", "I failed my driving exam thirteen times", "My driving exam has failed me thirteen times"],
+                    correctAnswer: ["I passed my driving exam in my thirteenth time"]
+                },
+                lesson3Title: 'Select the correct translation',
+                lesson3Question:
+                {
+                    questionFormat: 'SelectOne',
+                    title: 'Which out of the given sentences is the translation of this english sentence: "Who knows - someone could be spying on me through my phone"',
+                    possibleAnswers: ["Kažkas žino, kad aš juos šnipinėju", "Kas žino - kažkas gali mane šnipynėti per mano telefoną", "Nieks nežino - šnipinėja juos ar ne"],
+                    correctAnswer: ["Kas žino - kažkas gali mane šnipynėti per mano telefoną"]
+                },
+                lesson4Title: 'Which sentence best describes the given situation',
+                lesson4Question: 
+                {
+                    questionFormat: 'SelectOne',
+                    title: 'Select the sentence that you would be most likely to say in a clothes store',
+                    possibleAnswers: ["Nuostabus audinys! Koks jo pavadinimas?", "Nuostabus pastatas! Kas jo architektas?", "Važiuojame, pakeisime pavarų dėžę ir grįšime."],
+                    correctAnswer: ["Nuostabus audinys! Koks jo pavadinimas?"]
+                },
+                lesson5Title: 'Select the correct verb',
+                lesson5Question:
+                {
+                    questionFormat: 'SelectMultiple',
+                    title: 'You are given 5 sentences. Which 3 sentences are ok to say to a computer science student?',
+                    possibleAnswers: ["Civilinė indžinerija geriau", "Sunkiai mokinkis dabar, kad ateityje būtų lengviau", "Programavimas - tikrai sunkios studijos", "Kompiuteriai yra tiesiog nuliai ir vienetai", "Tau reikėjo rinktis psichologijos studijas"],
+                    correctAnswer: ["Sunkiai mokinkis dabar, kad ateityje būtų lengviau", "Programavimas - tikrai sunkios studijos", "Kompiuteriai yra tiesiog nuliai ir vienetai"],
                 }
             }
         }

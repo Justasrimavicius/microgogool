@@ -15,7 +15,6 @@ function MainRightDailyStreak() {
 
         xhr.onload = ()=>{
             const parsedResponse = JSON.parse(xhr.responseText);
-            console.log(parsedResponse);
             setDailyStreak(parsedResponse)
         }
     },[])
@@ -23,7 +22,7 @@ function MainRightDailyStreak() {
     return (
         <div className='main-right-daily-streak'>
             <p className='main-right-streak-title'>Your daily streak: <strong className='dailyStreakNum'>{dailyStreak}</strong></p>
-            <p>Compete with your friends! Who can maintain a larger daily streak?</p>
+            <p>Compete with your friends! Who can maintain a larger daily login streak?</p>
         </div>
     );
 }

@@ -22,7 +22,6 @@ function MainRightScore(){
 
         xhr.onload = ()=>{
             const parsedResponse = JSON.parse(xhr.responseText);
-            console.log(parsedResponse);
             if(parsedResponse.length!=0){
                 let tempHolder = parsedResponse.reduce((previousValue: number, singleSectionsScore_current: singleSectionsScore)=>singleSectionsScore_current.sectionScore + previousValue,
                 0

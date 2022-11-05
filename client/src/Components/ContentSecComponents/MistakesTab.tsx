@@ -42,7 +42,6 @@ function MistakesTab() {
     },[])
 
     useEffect(()=>{
-        console.log(allUserMistakes);
         if(allUserMistakes?.length==0)ShowNoMistakes(true);
     },[allUserMistakes])
 
@@ -87,7 +86,6 @@ function MistakesTab() {
                 {/* .map for badSelectAnswers */}
                 {allUserMistakes.map((specificSectionsMistakes: specificSectionsAllMistakes)=>{
                     if(specificSectionsMistakes.badSelectAnswers.length!=0){
-                        console.log(specificSectionsMistakes.sectionNumber)
                         return specificSectionsMistakes.badSelectAnswers.map((singleBadSelectAnswer: badSelectAnswersObject)=>{
                             return(
                                 <div className='mistakesTab-single-badAnswer' key={key.generate()}>

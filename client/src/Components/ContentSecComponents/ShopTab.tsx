@@ -5,7 +5,8 @@ function ShopTab() {
         <div className='shop-tab'>
             <img src={require(`../../Photos/shopping-cart.png`)} alt='shopping cart icon'></img>
             <p>Spend your daily streak points here!</p>
-            <div className='shop'>
+            <p style={{fontSize:'2.5rem', textAlign:'center'}}>TAB IS UNDER CONSTRUCTION</p>
+            {/* <div className='shop'>
                 <div className='shop-perk'>
                     <div className='shop-perk-upper'>
                         <img src={require(`../../Photos/double-point.png`)} alt='double points icon'></img>
@@ -26,7 +27,7 @@ function ShopTab() {
                         <button>Buy(1SP)</button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
