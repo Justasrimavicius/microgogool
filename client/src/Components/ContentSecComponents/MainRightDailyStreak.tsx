@@ -7,7 +7,7 @@ function MainRightDailyStreak() {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:8080/getDailyStreak', true);
+        xhr.open("POST", 'https://microgoogol.herokuapp.com/getDailyStreak', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
             UID: UID

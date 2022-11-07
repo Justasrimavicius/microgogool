@@ -1,6 +1,6 @@
 const { doc, setDoc, getFirestore, getDoc } = require("firebase/firestore"); 
 const {app} = require('./authController');
-const { summary } = require('date-streaks')
+const { summary } = require('date-streaks');
 
 exports.sectionsData = (req,res,next)=>{
         const mainSection = [
@@ -194,7 +194,7 @@ exports.sectionsData = (req,res,next)=>{
         }
     ]
     res.json(mainSection);
-
+//x
 }
 exports.saveFinishedLessonData = async(req,res,next)=>{
     const badDnDAnswers = req.body.badAnswersArr.filter(singleBadAnswer => singleBadAnswer.questionFormat=='DragAndDrop');

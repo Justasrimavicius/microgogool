@@ -14,7 +14,7 @@ function MainRightScore(){
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:8080/getUsersScore', true);
+        xhr.open("POST", 'https://microgoogol.herokuapp.com/getUsersScore', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
             UID: UID
