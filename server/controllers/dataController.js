@@ -204,13 +204,26 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
     const sectionNumber = `section${req.body.sectionNumber}`;
 
     const db = getFirestore(app);
+
+    let oldUserPoints;
+    await getDoc(doc(db, "users", `${UID}`))
+    .then(result=>{
+        oldUserPoints = result.data().userPoints;
+    })
+    const newUserPoints = oldUserPoints + (goodAnswers.length/(goodAnswers.length+badDnDAnswers.length+badSelectAnswers.length))*5;
+    // 1 good answer - 1 point
+
     await setDoc(doc(db, "users", `${UID}`), {
     [`${sectionNumber}`]:{
         badDnDAnswers,
         badSelectAnswers,
         goodAnswers
-    }
+    },
+    userPoints: newUserPoints,
 },{merge: true});
+
+
+
 }
 exports.getUserMistakes = async(req,res,next)=>{
     const UID = req.body.UID;

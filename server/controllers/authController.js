@@ -56,11 +56,13 @@ exports.signup = (req,res,next)=>{
             const year = date.getFullYear();
             const month = ("0" + (date.getMonth() + 1)).slice(-2);
             const day = ("0" + date.getDate()).slice(-2);
-
+            console.log(mainUserDocRef)
             console.log(userCredential.user)
             await setDoc(mainUserDocRef,{
-                SignupTime: `${year}-${month}-${day}`
-            })
+                SignupTime: `${year}-${month}-${day}`,
+                userPoints: 0
+            },{merge: true})
+
             await setDoc(docRefTimeData, {
                 timesLoggedIn: [`${year}-${month}-${day}`],
             },{merge: true});
