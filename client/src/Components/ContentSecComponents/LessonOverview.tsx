@@ -44,10 +44,6 @@ function LessonOverview(props: props) {
             sectionNumber: props.sectionNumber,
             UID: UID,
         }));
-
-        // xhr.onload = ()=>{
-        //     const parsedResponse = JSON.parse(xhr.responseText);
-        // }
     },[])
 
     return (
@@ -56,6 +52,7 @@ function LessonOverview(props: props) {
             <p className='lesson-overview-title'>These are your results</p>
 
                 <p className='percentage'>Percentage of answers gotten right: {props.lessonData.lessonOverview.goodAnswersArr.length / (props.lessonData.lessonOverview.goodAnswersArr.length + props.lessonData.lessonOverview.badAnswersArr.length) * 100}%</p>
+                <p style={{color:'gold', fontSize:'1.5rem'}}>+ {props.lessonData.lessonOverview.goodAnswersArr.length} UserPoints</p>
                 <p className='wrongQ'>The question/s you have got wrong:</p>
                 {props.lessonData.lessonOverview.badAnswersArr.length==0 ? <p className='maxScore'>congratulations on the max score!</p> : null}
                 {props.lessonData.lessonOverview.badAnswersArr.map((badAnswer: anyBadAnswer, index: number)=>{

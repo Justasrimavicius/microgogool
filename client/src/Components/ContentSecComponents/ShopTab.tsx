@@ -1,34 +1,92 @@
-import React from 'react';
+import React, { ElementType, useContext, useEffect, useState } from 'react';
+
+import UIDContext from 'src/UIDContext';
 
 function ShopTab() {
+
+    const [userPoints, setUserPoints] = useState<number>(11);
+    const [purchaseResponse, setPurchaseResponse] = useState<string>('');
+
+    const { UID, setUID } = useContext(UIDContext);
+
+    useEffect(()=>{
+        let xhr = new XMLHttpRequest();
+        // xhr.open("POST", 'https://microgoogol.herokuapp.com/getUserPoints', true);
+        xhr.open("POST", 'http://localhost:8080/getUserPoints', true);
+
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            UID: UID
+        }));
+
+        xhr.onload = ()=>{
+            const parsedResponse = JSON.parse(xhr.responseText);
+            setUserPoints(parsedResponse);
+        }
+    })
+
+    function buyPerk(perkName: string){
+        let xhr = new XMLHttpRequest();
+        // xhr.open("POST", 'https://microgoogol.herokuapp.com/buyPerk', true);
+        xhr.open("POST", 'http://localhost:8080/buyPerk', true);
+
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            UID: UID,
+            perkName: perkName
+        }));
+
+        xhr.onload = ()=>{
+            const parsedResponse = JSON.parse(xhr.responseText);
+            console.log(parsedResponse);
+            if(parsedResponse.perk){
+                setUserPoints(parsedResponse.UPafterPurchase);
+                setPurchaseResponse(parsedResponse.perk+' has been purchased!');
+            } else if(parsedResponse=='Not enough UserPoints'){
+                setPurchaseResponse('Not enough UserPoints.');
+            }
+        }
+    }
+    useEffect(()=>{
+        if(purchaseResponse!=''){
+            setTimeout(() => {
+                setPurchaseResponse('');
+            }, 3000);
+        }
+    },[purchaseResponse])
+
+
     return (
-        <div className='shop-tab'>
-            <img src={require(`../../Photos/shopping-cart.png`)} alt='shopping cart icon'></img>
-            <p>Spend your daily streak points here!</p>
-            <p style={{fontSize:'2.5rem', textAlign:'center'}}>TAB IS UNDER CONSTRUCTION</p>
-            <div className='shop'>
-                <div className='shop-perk'>
-                    <div className='shop-perk-upper'>
-                        <img src={require(`../../Photos/double-point.png`)} alt='double points icon'></img>
-                        <p className='perk-title'>Doubly-pointy</p>
+        <>
+            <div className='shop-tab'>
+                <img src={require(`../../Photos/shopping-cart.png`)} alt='shopping cart icon'></img>
+                <p>Spend your daily streak points here!</p>
+                <p>Your UserPoints: <strong style={{color:'gold'}}>{userPoints}</strong></p>
+                <div className='shop'>
+                    {purchaseResponse!='' ? <p style={{color:'gold', fontSize:'1.3rem'}}>{purchaseResponse}</p> : null}
+                    <div className='shop-perk'>
+                        <div className='shop-perk-upper'>
+                            <img src={require(`../../Photos/double-point.png`)} alt='double points icon'></img>
+                            <p className='perk-title'>Doubly-pointy</p>
+                        </div>
+                        <div className='shop-perk-lower'>
+                            <p className='perk-description'>Double points - double the points that you get from your next lesson.</p>
+                            <button onClick={()=>{buyPerk('Doubly-pointy')}}>Buy(2UP)</button>
+                        </div>
                     </div>
-                    <div className='shop-perk-lower'>
-                        <p className='perk-description'>Double points - double the points that you get from your next lesson.</p>
-                        <button>Buy(2SP)</button>
-                    </div>
-                </div>
-                <div className='shop-perk'>
-                    <div className='shop-perk-upper'>
-                        <img src={require(`../../Photos/skip.png`)} alt='skip lesson icon'></img>
-                        <p className='perk-title'>Lesson skipper</p>
-                    </div>
-                    <div className='shop-perk-lower'>
-                        <p className='perk-description'>lesson skip - skip the next lesson.</p>
-                        <button>Buy(1SP)</button>
+                    <div className='shop-perk'>
+                        <div className='shop-perk-upper'>
+                            <img src={require(`../../Photos/skip.png`)} alt='skip lesson icon'></img>
+                            <p className='perk-title'>Lesson skipper</p>
+                        </div>
+                        <div className='shop-perk-lower'>
+                            <p className='perk-description'>lesson skip - skip the next lesson.</p>
+                            <button onClick={()=>{buyPerk('Lesson skipper')}}>Buy(1UP)</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

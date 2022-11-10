@@ -43,7 +43,7 @@ function MainRightScore(){
         {finalScorePrcnt.length!=0 ?
         <div className='main-right-score'>
             <img src={require('../../Photos/world.png')} alt='world icon' style={{width: '40%'}}></img>
-            <p className='main-right-score-title' data-testid='main-right-score-title'>You have gotten {finalScorePrcnt}% of the questions right.</p>
+            <p className='main-right-score-title' data-testid='main-right-score-title'>You have gotten {finalScorePrcnt}% of all of the questions right.</p>
             {parseFloat(finalScorePrcnt)>50 ? <p>You got some knowledge!</p> : <p>You can do better..</p>}
         </div> 
         : 

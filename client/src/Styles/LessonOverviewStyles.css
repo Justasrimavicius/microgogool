@@ -67,6 +67,16 @@
     grid-row: 1/2;
     color: rgb(99, 131, 99);
     font-weight: bold;
+
+    align-self: center;
+    border-left: 1px solid black;
+    font-weight: bold;
+    height: 100%;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .percentage{
     color: #5c7b5c;
@@ -98,6 +108,8 @@
     align-items: center;
     gap: 10px;
     border-right: 1px solid black;
+
+    height: 100%;
 }
 .single-badAnswer-correctWords{
     color: #46a046;
@@ -108,6 +120,8 @@
     align-items: center;
     gap: 10px;
     height: 100%;
+    border-left: 1px solid black;
+
 }
 .lesson-overview-backBtn{
     background-color: rgba(195, 255, 0, 0.301);

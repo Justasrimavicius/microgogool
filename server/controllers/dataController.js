@@ -209,8 +209,12 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
     await getDoc(doc(db, "users", `${UID}`))
     .then(result=>{
         oldUserPoints = result.data().userPoints;
+        console.log('old UP:');
+        console.log(typeof oldUserPoints);
+        console.log(oldUserPoints);
     })
     const newUserPoints = oldUserPoints + (goodAnswers.length/(goodAnswers.length+badDnDAnswers.length+badSelectAnswers.length))*5;
+    console.log(newUserPoints)
     // 1 good answer - 1 point
 
     await setDoc(doc(db, "users", `${UID}`), {
@@ -372,6 +376,68 @@ exports.getDailyStreak = async(req,res,next)=>{
     if(docSnap.exists()){
         console.log(docSnap.data().timesLoggedIn)
        res.json(summary(docSnap.data().timesLoggedIn).currentStreak)
+
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.getUserPoints = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()){
+        console.log(docSnap.data().userPoints)
+        res.json(docSnap.data().userPoints);
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.buyPerk = async(req,res,next)=>{
+    const UID = req.body.UID;
+    const perkName = req.body.perkName;
+    console.log(perkName);
+    perks = [
+        {
+            name: 'Doubly-pointy',
+            desc: 'Double points - double the points that you get from your next lesson.',
+            price: 2
+        },
+        {
+            name: 'Lesson skipper',
+            desc: 'lesson skip - skip the next lesson.',
+            price: 1
+        },
+    ]
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()){
+        userPoints = docSnap.data().userPoints;
+        for(perk of perks){
+            if(perk.name==perkName){
+                
+                if(userPoints>=perk.price){
+                    // able to purchase the park.
+
+                    // subtract the UserPoints from db
+                    await setDoc(docRef,{
+                        userPoints: userPoints-perk.price,
+                    },{merge: true});
+
+                    res.json({perk: perk.name, isPurchased: true, UPafterPurchase: userPoints-perk.price})
+                } else{
+                    res.json('Not enough UserPoints');
+                }
+            }
+        }
 
     } else {
         // doc.data() will be undefined in this case
