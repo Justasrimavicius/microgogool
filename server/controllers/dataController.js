@@ -204,13 +204,56 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
     const sectionNumber = `section${req.body.sectionNumber}`;
 
     const db = getFirestore(app);
-    await setDoc(doc(db, "users", `${UID}`), {
-    [`${sectionNumber}`]:{
-        badDnDAnswers,
-        badSelectAnswers,
-        goodAnswers
+
+    let oldUserPoints;
+    await getDoc(doc(db, "users", `${UID}`))
+    .then(async result=>{
+        oldUserPoints = result.data().userPoints;
+        let newUserPoints = oldUserPoints + (goodAnswers.length/(goodAnswers.length+badDnDAnswers.length+badSelectAnswers.length))*5;
+        let newActivePerks = result.data().activePerks;
+    
+        // do this if user has Doubly-pointy perk(doubles the points received from a single lesson)
+        result.data().activePerks.map((singlePerk,index)=>{
+            if(singlePerk=='Doubly-pointy'){
+                // double the points that were gotten from the last lesson
+                newUserPoints += (newUserPoints-oldUserPoints);
+    
+                // remove the Doubly-pointy perk from user.
+                console.log(newActivePerks);
+                newActivePerks.splice(index,1);
+                console.log(newActivePerks);
+            }
+        })
+
+
+    // else, continue with this
+    if(newActivePerks==null){
+        await setDoc(doc(db, "users", `${UID}`), {
+        [`${sectionNumber}`]:{
+            badDnDAnswers,
+            badSelectAnswers,
+            goodAnswers
+        },
+        userPoints: newUserPoints,
+    },{merge: true});
+    } else {
+        await setDoc(doc(db, "users", `${UID}`), {
+            [`${sectionNumber}`]:{
+                badDnDAnswers,
+                badSelectAnswers,
+                goodAnswers
+            },
+            userPoints: newUserPoints,
+            activePerks: newActivePerks
+        },{merge: true});
     }
-},{merge: true});
+    })
+
+
+
+
+
+
 }
 exports.getUserMistakes = async(req,res,next)=>{
     const UID = req.body.UID;
@@ -359,6 +402,79 @@ exports.getDailyStreak = async(req,res,next)=>{
     if(docSnap.exists()){
         console.log(docSnap.data().timesLoggedIn)
        res.json(summary(docSnap.data().timesLoggedIn).currentStreak)
+
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.getUserPoints = async(req,res,next)=>{
+    const UID = req.body.UID;
+
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()){
+        console.log(docSnap.data().userPoints)
+        res.json(docSnap.data().userPoints);
+    } else {
+        // doc.data() will be undefined in this case
+        res.json([])
+        console.log("No such document!");
+    }
+}
+exports.buyPerk = async(req,res,next)=>{
+    const UID = req.body.UID;
+    const perkName = req.body.perkName;
+    perks = [
+        {
+            name: 'Doubly-pointy',
+            desc: 'Double points - double the points that you get from your next lesson.',
+            price: 2
+        },
+        {
+            name: 'Lesson skipper',
+            desc: 'lesson skip - skip the next lesson.',
+            price: 1
+        },
+    ]
+    const db = getFirestore(app);
+
+    const docRef = doc(db, "users", `${UID}`);
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()){
+        userPoints = docSnap.data().userPoints;
+        activePerks = docSnap.data().activePerks;
+
+        for(let i = 0; i < activePerks.length; i++){
+            if(activePerks[i]==perkName){
+                // user already has the perk they are trying to buy;
+                res.json('You already own this perk!');
+                return;
+            }
+        }
+
+
+        for(perk of perks){
+            if(perk.name==perkName){
+                    console.log(perk);
+                if(userPoints>=perk.price){
+                    // able to purchase the park.
+                    const boughtPerk = perk.name;
+                    // subtract the UserPoints from db
+                    await setDoc(docRef,{
+                        userPoints: userPoints-perk.price,
+                        activePerks: [...activePerks, boughtPerk],
+                    },{merge: true});
+
+                    res.json({perk: perk.name, isPurchased: true, UPafterPurchase: userPoints-perk.price})
+                } else{
+                    res.json('Not enough UserPoints');
+                }
+            }
+        }
 
     } else {
         // doc.data() will be undefined in this case

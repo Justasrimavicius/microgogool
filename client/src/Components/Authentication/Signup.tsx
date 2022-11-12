@@ -11,7 +11,9 @@ function Signup(props: any) {
     async function checkSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/signup', true);
+        // xhr.open("POST", 'https://microgoogol.herokuapp.com/signup', true);
+        xhr.open("POST", 'http://localhost:8080/signup', true);
+
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
             email: e.currentTarget.email.value,

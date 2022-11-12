@@ -13,5 +13,7 @@ router.post('/getUserMistakes',dataController.getUserMistakes);
 router.post('/getUsersScore',dataController.getUsersScore);
 router.post('/updateDailyStreak',dataController.updateDailyStreak);
 router.post('/getDailyStreak',dataController.getDailyStreak);
+router.post('/getUserPoints',dataController.getUserPoints);
+router.post('/buyPerk',dataController.buyPerk);
 
 module.exports = router;
