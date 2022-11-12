@@ -42,8 +42,8 @@ function Content(props: props) {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        // xhr.open("POST", 'https://microgoogol.herokuapp.com/updateDailyStreak', true);
-        xhr.open("POST", 'http://localhost:8080/updateDailyStreak', true);
+        xhr.open("POST", 'https://microgoogol.herokuapp.com/updateDailyStreak', true);
+        // xhr.open("POST", 'http://localhost:8080/updateDailyStreak', true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({

@@ -34,8 +34,8 @@ function LessonOverview(props: props) {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        // xhr.open("POST", 'https://microgoogol.herokuapp.com/saveFinishedLessonData', true);
-        xhr.open("POST", 'http://localhost:8080/saveFinishedLessonData', true);
+        xhr.open("POST", 'https://microgoogol.herokuapp.com/saveFinishedLessonData', true);
+        // xhr.open("POST", 'http://localhost:8080/saveFinishedLessonData', true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
