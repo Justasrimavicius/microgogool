@@ -76,7 +76,7 @@ function ShopTab() {
                             <button onClick={()=>{buyPerk('Doubly-pointy')}}>Buy(2UP)</button>
                         </div>
                     </div>
-                    <div className='shop-perk'>
+                    {/* <div className='shop-perk'>
                         <div className='shop-perk-upper'>
                             <img src={require(`../../Photos/skip.png`)} alt='skip lesson icon'></img>
                             <p className='perk-title'>Lesson skipper</p>
@@ -85,7 +85,8 @@ function ShopTab() {
                             <p className='perk-description'>lesson skip - skip the next lesson.</p>
                             <button onClick={()=>{buyPerk('Lesson skipper')}}>Buy(1UP)</button>
                         </div>
-                    </div>
+                    </div> */}
+                    <p style={{fontSize:'2rem'}}>More perks on the way!</p>
                 </div>
             </div>
         </>
