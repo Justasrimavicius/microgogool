@@ -4,7 +4,7 @@ import UIDContext from 'src/UIDContext';
 
 function ShopTab() {
 
-    const [userPoints, setUserPoints] = useState<number>(11);
+    const [userPoints, setUserPoints] = useState<number>(0);
     const [purchaseResponse, setPurchaseResponse] = useState<string>('');
 
     const { UID, setUID } = useContext(UIDContext);
@@ -43,7 +43,9 @@ function ShopTab() {
                 setUserPoints(parsedResponse.UPafterPurchase);
                 setPurchaseResponse(parsedResponse.perk+' has been purchased!');
             } else if(parsedResponse=='Not enough UserPoints'){
-                setPurchaseResponse('Not enough UserPoints.');
+                setPurchaseResponse(parsedResponse);
+            } else if(parsedResponse=='You already own this perk!'){
+                setPurchaseResponse(parsedResponse);
             }
         }
     }

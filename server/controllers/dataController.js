@@ -207,24 +207,50 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
 
     let oldUserPoints;
     await getDoc(doc(db, "users", `${UID}`))
-    .then(result=>{
+    .then(async result=>{
         oldUserPoints = result.data().userPoints;
-        console.log('old UP:');
-        console.log(typeof oldUserPoints);
-        console.log(oldUserPoints);
-    })
-    const newUserPoints = oldUserPoints + (goodAnswers.length/(goodAnswers.length+badDnDAnswers.length+badSelectAnswers.length))*5;
-    console.log(newUserPoints)
-    // 1 good answer - 1 point
+        let newUserPoints = oldUserPoints + (goodAnswers.length/(goodAnswers.length+badDnDAnswers.length+badSelectAnswers.length))*5;
+        let newActivePerks = result.data().activePerks;
+    
+        // do this if user has Doubly-pointy perk(doubles the points received from a single lesson)
+        result.data().activePerks.map((singlePerk,index)=>{
+            if(singlePerk=='Doubly-pointy'){
+                // double the points that were gotten from the last lesson
+                newUserPoints += (newUserPoints-oldUserPoints);
+    
+                // remove the Doubly-pointy perk from user.
+                console.log(newActivePerks);
+                newActivePerks.splice(index,1);
+                console.log(newActivePerks);
+            }
+        })
 
-    await setDoc(doc(db, "users", `${UID}`), {
-    [`${sectionNumber}`]:{
-        badDnDAnswers,
-        badSelectAnswers,
-        goodAnswers
-    },
-    userPoints: newUserPoints,
-},{merge: true});
+
+    // else, continue with this
+    if(newActivePerks==null){
+        await setDoc(doc(db, "users", `${UID}`), {
+        [`${sectionNumber}`]:{
+            badDnDAnswers,
+            badSelectAnswers,
+            goodAnswers
+        },
+        userPoints: newUserPoints,
+    },{merge: true});
+    } else {
+        await setDoc(doc(db, "users", `${UID}`), {
+            [`${sectionNumber}`]:{
+                badDnDAnswers,
+                badSelectAnswers,
+                goodAnswers
+            },
+            userPoints: newUserPoints,
+            activePerks: newActivePerks
+        },{merge: true});
+    }
+    })
+
+
+
 
 
 
@@ -402,7 +428,6 @@ exports.getUserPoints = async(req,res,next)=>{
 exports.buyPerk = async(req,res,next)=>{
     const UID = req.body.UID;
     const perkName = req.body.perkName;
-    console.log(perkName);
     perks = [
         {
             name: 'Doubly-pointy',
@@ -421,15 +446,27 @@ exports.buyPerk = async(req,res,next)=>{
     const docSnap = await getDoc(docRef);
     if(docSnap.exists()){
         userPoints = docSnap.data().userPoints;
+        activePerks = docSnap.data().activePerks;
+
+        for(let i = 0; i < activePerks.length; i++){
+            if(activePerks[i]==perkName){
+                // user already has the perk they are trying to buy;
+                res.json('You already own this perk!');
+                return;
+            }
+        }
+
+
         for(perk of perks){
             if(perk.name==perkName){
-                
+                    console.log(perk);
                 if(userPoints>=perk.price){
                     // able to purchase the park.
-
+                    const boughtPerk = perk.name;
                     // subtract the UserPoints from db
                     await setDoc(docRef,{
                         userPoints: userPoints-perk.price,
+                        activePerks: [...activePerks, boughtPerk],
                     },{merge: true});
 
                     res.json({perk: perk.name, isPurchased: true, UPafterPurchase: userPoints-perk.price})

@@ -60,7 +60,8 @@ exports.signup = (req,res,next)=>{
             console.log(userCredential.user)
             await setDoc(mainUserDocRef,{
                 SignupTime: `${year}-${month}-${day}`,
-                userPoints: 0
+                userPoints: 0,
+                activePerks: []
             },{merge: true})
 
             await setDoc(docRefTimeData, {
