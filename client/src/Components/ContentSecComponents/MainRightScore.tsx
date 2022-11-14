@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import UIDContext from 'src/UIDContext';
+import link from '../../xhrLink';
 
 interface singleSectionsScore{
     sectionScore: number,
@@ -14,8 +15,7 @@ function MainRightScore(){
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/getUsersScore', true);
-        // xhr.open("POST", 'http://localhost:8080/getUsersScore', true);
+        xhr.open("POST", `${link}/getUsersScore`, true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({

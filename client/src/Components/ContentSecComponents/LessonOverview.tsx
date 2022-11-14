@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import UIDContext from 'src/UIDContext';
+
+import link from '../../xhrLink';
+
+
 const key = require('key-creator');
+
 
 interface props{
     lessonData: any,
@@ -34,8 +39,7 @@ function LessonOverview(props: props) {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/saveFinishedLessonData', true);
-        // xhr.open("POST", 'http://localhost:8080/saveFinishedLessonData', true);
+        xhr.open("POST", `${link}/saveFinishedLessonData`, true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({

@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import UIDContext from 'src/UIDContext';
+import link from 'src/xhrLink';
+
+
 function MainRightDailyStreak() {
     const { UID, setUID } = useContext(UIDContext);
 
@@ -7,8 +10,7 @@ function MainRightDailyStreak() {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/getDailyStreak', true);
-        // xhr.open("POST", 'http://localhost:8080/getDailyStreak', true);
+        xhr.open("POST", `${link}/getDailyStreak`, true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({

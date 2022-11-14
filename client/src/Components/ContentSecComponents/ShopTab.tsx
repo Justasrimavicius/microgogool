@@ -1,6 +1,7 @@
 import React, { ElementType, useContext, useEffect, useState } from 'react';
 
 import UIDContext from 'src/UIDContext';
+import link from 'src/xhrLink';
 
 function ShopTab() {
 
@@ -11,8 +12,7 @@ function ShopTab() {
 
     useEffect(()=>{
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/getUserPoints', true);
-        // xhr.open("POST", 'http://localhost:8080/getUserPoints', true);
+        xhr.open("POST", `${link}/getUserPoints`, true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
@@ -27,8 +27,8 @@ function ShopTab() {
 
     function buyPerk(perkName: string){
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/buyPerk', true);
-        // xhr.open("POST", 'http://localhost:8080/buyPerk', true);
+        // xhr.open("POST", 'https://microgoogol.herokuapp.com/buyPerk', true);
+        xhr.open("POST", 'http://localhost:8080/buyPerk', true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({

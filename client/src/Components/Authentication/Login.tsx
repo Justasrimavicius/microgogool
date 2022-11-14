@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import UIDContext from 'src/UIDContext';
 
+import link from '../../xhrLink';
+
 function Login(props: any){
     
     const [authErrorMsg, setAuthErrorMsg] = useState('');
@@ -11,8 +13,7 @@ function Login(props: any){
     function submitForm(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://microgoogol.herokuapp.com/login', true);
-        // xhr.open("POST", 'http://localhost:8080/login', true);
+        xhr.open("POST", `${link}/login`, true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
