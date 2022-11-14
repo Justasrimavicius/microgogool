@@ -11,8 +11,8 @@ function Login(props: any){
     function submitForm(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         let xhr = new XMLHttpRequest();
-        // xhr.open("POST", 'https://microgoogol.herokuapp.com/login', true);
-        xhr.open("POST", 'http://localhost:8080/login', true);
+        xhr.open("POST", 'https://microgoogol.herokuapp.com/login', true);
+        // xhr.open("POST", 'http://localhost:8080/login', true);
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
