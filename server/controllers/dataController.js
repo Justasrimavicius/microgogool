@@ -366,11 +366,10 @@ exports.updateDailyStreak = async(req,res,next)=>{
     const UID = req.body.UID;
 
     const db = getFirestore(app);
-
+    
     const docRef = doc(db, "users", `${UID}`, 'loginData','timesWhenLoggedin');
     const docSnap = await getDoc(docRef);
 
-    console.log()
     if(docSnap.exists()){
         const lastDayLoggedIn_InDB = docSnap.data().timesLoggedIn[docSnap.data().timesLoggedIn.length-1]
 
@@ -385,11 +384,6 @@ exports.updateDailyStreak = async(req,res,next)=>{
                 timesLoggedIn: [...docSnap.data().timesLoggedIn, currentDateFormated],
             },{merge: true});
         }
-
-    } else {
-        // doc.data() will be undefined in this case
-        res.json([])
-        console.log("No such document!");
     }
 }
 exports.getDailyStreak = async(req,res,next)=>{
@@ -401,6 +395,7 @@ exports.getDailyStreak = async(req,res,next)=>{
     const docSnap = await getDoc(docRef);
     if(docSnap.exists()){
         console.log(docSnap.data().timesLoggedIn)
+        res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
        res.json(summary(docSnap.data().timesLoggedIn).currentStreak)
 
     } else {

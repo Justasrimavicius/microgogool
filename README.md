@@ -35,4 +35,5 @@ Core principles learned:
 
 ## Known problems/bugs
 
-Not a problem per se, but not fully finished functionality/tests. Will add to this project for an additional month(mainly trying to achieve max coverage).
+- Not a problem per se, but not fully finished functionality/tests. Will add to this project for an additional month(mainly trying to achieve max coverage).
+- CORS errors(a big problem that I am trying to fix)

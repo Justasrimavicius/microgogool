@@ -24,7 +24,7 @@ function ShopTab() {
             const parsedResponse = JSON.parse(xhr.responseText);
             setUserPoints(parsedResponse);
         }
-    })
+    },[])
 
     function buyPerk(perkName: string){
         let xhr = new XMLHttpRequest();
