@@ -33,7 +33,7 @@ Core principles learned:
 - Typescript
 - In-depth testing(goal - make the app coverage as close to 100% as possible)
 
-## Known problems/bugs
+## Known problems/bugs/things to point out
 
 - Not a problem per se, but not fully finished functionality/tests. Will add to this project for an additional month(mainly trying to achieve max coverage).
-- CORS errors(a big problem that I am trying to fix)
+- I might have to postpone finishing this project currently - a new opportunity has risen that needs a lot of planning.

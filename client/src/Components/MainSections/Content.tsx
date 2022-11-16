@@ -49,10 +49,9 @@ function Content(props: props) {
         xhr.send(JSON.stringify({
             UID: UID
         }));
-
-        xhr.onload = ()=>{
-            console.log(xhr.responseText)
-        }
+        // xhr.onload = ()=>{
+        //     console.log(xhr.responseText)
+        // }
     },[])
 
     useEffect(()=>{
@@ -88,7 +87,7 @@ function Content(props: props) {
     },[sectionNum]);
     
     useEffect(()=>{
-        fetch('https://microgoogol.herokuapp.com/sectionsData')
+        fetch(`${link}/sectionsData`)
             .then(res=>{
             res.json()
                 .then(finalData=>{

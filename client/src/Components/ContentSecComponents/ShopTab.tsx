@@ -22,7 +22,7 @@ function ShopTab() {
         xhr.onload = ()=>{
             console.log(xhr.responseText)
             const parsedResponse = JSON.parse(xhr.responseText);
-            setUserPoints(parsedResponse);
+            setUserPoints(parsedResponse.UP);
         }
     },[])
 

@@ -202,7 +202,7 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
     const UID = req.body.UID;
     const goodAnswers = req.body.goodAnswersArr;
     const sectionNumber = `section${req.body.sectionNumber}`;
-
+console.log('SAVING FINISHED LESSON DATAA')
     const db = getFirestore(app);
 
     let oldUserPoints;
@@ -253,7 +253,7 @@ exports.saveFinishedLessonData = async(req,res,next)=>{
 
 
 
-
+    res.json({});
 }
 exports.getUserMistakes = async(req,res,next)=>{
     const UID = req.body.UID;
@@ -364,7 +364,7 @@ exports.getUsersScore = async(req,res,next)=>{
 }
 exports.updateDailyStreak = async(req,res,next)=>{
     const UID = req.body.UID;
-
+    console.log('CIA VYKSTA UPDATEEEE')
     const db = getFirestore(app);
     
     const docRef = doc(db, "users", `${UID}`, 'loginData','timesWhenLoggedin');
@@ -385,6 +385,8 @@ exports.updateDailyStreak = async(req,res,next)=>{
             },{merge: true});
         }
     }
+    res.json({});
+
 }
 exports.getDailyStreak = async(req,res,next)=>{
     const UID = req.body.UID;
@@ -395,7 +397,6 @@ exports.getDailyStreak = async(req,res,next)=>{
     const docSnap = await getDoc(docRef);
     if(docSnap.exists()){
         console.log(docSnap.data().timesLoggedIn)
-        res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
        res.json(summary(docSnap.data().timesLoggedIn).currentStreak)
 
     } else {
@@ -412,8 +413,7 @@ exports.getUserPoints = async(req,res,next)=>{
     const docRef = doc(db, "users", `${UID}`);
     const docSnap = await getDoc(docRef);
     if(docSnap.exists()){
-        console.log(docSnap.data().userPoints)
-        res.json(docSnap.data().userPoints);
+        res.json({UP: docSnap.data().userPoints});
     } else {
         // doc.data() will be undefined in this case
         res.json([])
