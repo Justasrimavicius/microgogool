@@ -36,4 +36,4 @@ Core principles learned:
 ## Known problems/bugs/things to point out
 
 - Not a problem per se, but not fully finished functionality/tests. Will add to this project for an additional month(mainly trying to achieve max coverage).
-- I might have to postpone finishing this project currently - a new opportunity has risen that needs a lot of planning.
+- I might have to slow down the progress of this project currently - a new opportunity has risen that needs a lot of planning.
